@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+	   xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head th:replace="layout/header :: header-link">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+</head>
+<body>
+    <div class="wrapper">
+        <div th:fragment="sidebar" th:replace="layout/body :: sidebar" ></div><!--sidebar -->
+        <header th:replace="layout/body :: header"></header> <!-- header -->
+        
+        <!--Actual Processing Section Start-->
+           <div class="page-wrapper">
+             <div class="page-content">
+                <!--breadcrumb-->
+                <div class="page-breadcrumb d-none d-sm-flex align-items-center mb-3">
+                    <div class="breadcrumb-title pe-3">WFHS</div>
+                    <div class="ps-3">
+                        <nav aria-label="breadcrumb">
+                            <ol class="breadcrumb mb-0 p-0">
+                                <li class="breadcrumb-item"><a href="javascript:;"><i class="bx bx-home-alt"></i></a>
+                                </li>
+                                <li class="breadcrumb-item active" aria-current="page">Applicant Register</li>
+                            </ol>
+                        </nav>
+                    </div>
+                </div>
+                <!--end breadcrumb-->
+                <div class="row">
+                    <div class="col-lg-8 mx-auto">
+                        <div class="card">
+                        	<div th:if="${success}" class="alert alert-success border-0 bg-success alert-dismissible fade show py-2">
+							    <div class="d-flex align-items-center">				
+							        <div class="font-35 text-white"><i class='bx bxs-check-circle'></i>					
+							        </div>					
+							        <div class="ms-3">					
+							            <h6 class="mb-0 text-white">Success</h6>					
+							            <div class="text-white">New applicant has been added successfully</div>					
+							        </div>					
+							    </div>					
+							    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>					
+							</div>
+							<div th:if="${error}" class="alert alert-warning border-0 bg-warning alert-dismissible fade show py-2">
+							    <div class="d-flex align-items-center">					
+							        <div class="font-35 text-dark"><i class='bx bx-info-circle'></i>					
+							        </div>					
+							        <div class="ms-3">					
+							            <h6 class="mb-0 text-dark">Need Data</h6>					
+							            <div class="text-dark">After you add the data, you can register.</div>					
+							        </div>					
+							    </div>					
+							    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>					
+							</div>
+                            <div class="card-body p-4">
+                                <h5 class="mb-4">Register Form</h5>
+                                <form id="jQueryValidationForm" th:action="@{/applicant-register}" method="post" th:object="${userDto}">
+                                <div class="row mb-3">
+                                    <label for="staffId" class="col-sm-3 col-form-label">StaffID</label>
+                                    <div class="col-sm-9">
+                                        <div class="position-relative input-icon">
+                                            <input type="text" class="form-control" id="staffId" placeholder="StaffID" th:field="${userDto.staffId}" required>
+                                            <span class="position-absolute top-50 translate-middle-y"><i class="fadeIn animated bx bx-minus"></i></span>
+                                        </div>
+                                        <span id="staffIdErrorMessage" class="text-danger" style="display: none;"></span>
+                                    </div>
+                                </div>
+                                <div class="row mb-3">
+                                    <label for="gender" class="col-sm-3 col-form-label">Gender</label>
+                                    <div class="col-sm-9">
+                                        <div class="d-flex align-items-center gap-3">
+											<div class="form-check">
+												<input type="radio" class="form-check-input" id="genderMale" name="radio-gender" value="M" th:field="${userDto.gender}" required>
+												<label class="form-check-label" for="genderMale">Male</label>
+											</div>
+											<div class="form-check">
+												<input type="radio" class="form-check-input" id="genderFemale" name="radio-gender" value="F" th:field="${userDto.gender}" required>
+												<label class="form-check-label" for="genderFemale">Female</label>
+											</div>
+										</div>
+                                    </div>
+                                </div>
+                                <div class="row mb-3">
+                                    <label for="input42" class="col-sm-3 col-form-label">Name</label>
+                                    <div class="col-sm-9">
+                                        <div class="position-relative input-icon">
+                                            <input type="text" class="form-control" id="input42" placeholder="Name" th:field="${userDto.name}" required>
+                                            <span class="position-absolute top-50 translate-middle-y"><i
+                                                    class='bx bx-user'></i></span>
+                                        </div>
+                                        <span id="nameErrorMessage" class="text-danger" style="display: none;"></span>
+                                    </div>
+                                </div>
+                                <div class="row mb-3">
+									<label for="input35" class="col-sm-3 col-form-label">Join Date</label>
+									<div class="col-sm-9">
+										<div class="position-relative input-icon">
+											<input type="text" class="form-control datepicker" id="joinDate" th:field="${userDto.joinDate}" required />
+											<span class="position-absolute top-50 translate-middle-y"><i class="bx bx-calendar"></i></span>
+										</div>
+                                    </div>
+								</div>
+								<div class="row mb-3">
+									<label for="input35" class="col-sm-3 col-form-label">Permanent Date</label>
+									<div class="col-sm-9">
+										<div class="position-relative input-icon">
+											<input type="text" class="form-control datepicker" id="permanentDate" th:field="${userDto.permanentDate}" required />
+											<span class="position-absolute top-50 translate-middle-y"><i class="bx bx-calendar"></i></span>
+										</div>
+										<div id="permanentDateErrorMessage" class="text-danger" style="display: none;"></div>
+                                    </div>
+								</div>
+								<div class="row mb-3">
+                                    <label for="material" class="col-sm-3 col-form-label">Material</label>
+                                    <div class="col-sm-9">
+                                        <div class="d-flex align-items-center gap-3">
+											<div class="form-check">
+												<input type="radio" class="form-check-input" id="materialYes" name="radio-material" value="Married" th:field="${userDto.maritalStatus}" required>
+												<label class="form-check-label" for="materialYes">Married</label>
+											</div>
+											<div class="form-check">
+												<input type="radio" class="form-check-input" id="materialNo" name="radio-material" value="Single" th:field="${userDto.maritalStatus}" required>
+												<label class="form-check-label" for="materialNo">Single</label>
+											</div>
+										</div>
+                                    </div>
+                                </div>
+                                <div class="row mb-3">
+                                    <label for="parent" class="col-sm-3 col-form-label">Parent</label>
+                                    <div class="col-sm-9">
+                                        <div class="d-flex align-items-center gap-3">
+											<div class="form-check">
+												<input type="radio" class="form-check-input" id="parentYes" name="radio-parent" value="Yes" th:field="${userDto.parent}" required>
+												<label class="form-check-label" for="parentYes">Yes</label>
+											</div>
+											<div class="form-check">
+												<input type="radio" class="form-check-input" id="parentNo" name="radio-parent" value="No" th:field="${userDto.parent}" required>
+												<label class="form-check-label" for="parentNo">No</label>
+											</div>
+										</div>
+                                    </div>
+                                </div>
+                                <div class="row mb-3">
+                                    <label for="children" class="col-sm-3 col-form-label">Children</label>
+                                    <div class="col-sm-9">
+                                        <div class="d-flex align-items-center gap-3">
+											<div class="form-check">
+												<input type="radio" class="form-check-input" id="childrenYes" name="radio-children" value="Yes" th:field="${userDto.children}" required>
+												<label class="form-check-label" for="childrenYes">Yes</label>
+											</div>
+											<div class="form-check">
+												<input type="radio" class="form-check-input" id="childrenNo" name="radio-children" value="No" th:field="${userDto.children}" required>
+												<label class="form-check-label" for="childrenNo">No</label>
+											</div>
+										</div>
+                                    </div>
+                                </div>
+                                <div class="row mb-3">
+	                                <label for="input42" class="col-sm-3 col-form-label">Current Position</label>
+	                                <div class="col-sm-9">
+	                                    <select class="form-select" id="input46" th:field="${userDto.currentPosition}">
+	                                    	<option value="">----- Select Position -----</option>
+	                                         	<option th:each="position : ${positionList}" th:value="${position.name}" th:text="${position.name}">
+											</option>
+	                                  	</select>
+	                                </div>
+	                            </div>
+                                <div class="row mb-3">
+                                    <label for="input43" class="col-sm-3 col-form-label">Phone No</label>
+                                    <div class="col-sm-9">
+                                        <div class="position-relative input-icon">
+                                            <input type="text" class="form-control" id="input43" placeholder="Phone No" th:field="${userDto.phone}">
+                                            <span class="position-absolute top-50 translate-middle-y"><i
+                                                    class='bx bx-phone'></i></span>
+                                        </div>
+                                        <span id="phoneErrorMessage" class="text-danger" style="display: none;"></span>
+                                    </div>
+                                </div>
+                                <div class="row mb-3">
+	                                <label for="input42" class="col-sm-3 col-form-label">Division</label>
+	                                <div class="col-sm-9">
+	                                    <select class="form-select" id="divisionSelectApplicant" th:field="${userDto.divisionName}">
+	                                    	<option value="">----- Select Division -----</option>
+	                                        <option th:each="division : ${divisionList}" th:value="${division.name}" th:text="${division.name}">
+											</option>
+	                                  	</select>
+	                                </div>
+	                            </div>
+                                <div class="row mb-3">
+	                                <label for="input42" class="col-sm-3 col-form-label">Department</label>
+	                                <div class="col-sm-9">
+	                                    <select class="form-select" id="departmentSelectApplicant" th:field="${userDto.departmentName}">
+	                                    	<option value="">----- Select Department -----</option>
+	                                        <!-- option th:each="department : ${departmentList}" th:value="${department.id}" th:text="${department.name}">
+											</option -->
+	                                  	</select>
+	                                </div>
+	                            </div>
+                                <div class="row mb-3">
+	                                <label for="input42" class="col-sm-3 col-form-label">Team</label>
+	                                <div class="col-sm-9">
+	                                    <select class="form-select" id="teamSelectApplicant" th:field="${userDto.teamName}">
+	                                    	<option value="">----- Select Team -----</option>
+	                                        <!-- option th:each="team : ${teamList}" th:value="${team.id}" th:text="${team.name}">
+											</option -->
+	                                  	</select>
+	                                </div>
+	                            </div>
+	                            <div class="row mb-3">
+	                                <label for="input42" class="col-sm-3 col-form-label">Role</label>
+	                                <div class="col-sm-9">
+	                                    <select class="form-select" id="input46" th:field="${userDto.roleName}">
+	                                    	<option value="">----- Select Role -----</option>
+	                                         	<option th:each="role : ${roleList}" th:value="${role.name}" th:text="${role.name}">
+											</option>
+	                                  	</select>
+	                                </div>
+	                            </div>
+                                <div class="row">
+                                    <label class="col-sm-3 col-form-label"></label>
+                                    <div class="col-sm-9">
+                                        <div class="d-md-flex d-grid align-items-center gap-3">
+                                            <button type="submit" class="btn btn-primary px-4">Submit</button>
+                                            <a th:href="@{/applicants}" class="btn btn-light px-4">Reset</a>
+                                        </div>
+                                    </div>
+                                </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div><!--end row-->
+            </div><!--end row-->
+        </div>
+        <!--Actual Processing Section Start-->
+<div th:include="layout/footer"></div>

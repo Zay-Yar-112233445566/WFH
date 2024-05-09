@@ -1,0 +1,501 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="layout/header :: header-link"></head>
+<body>
+	<div class="wrapper">
+       	<div th:fragment="sidebar" th:replace="layout/body :: sidebar" ></div><!--sidebar -->
+		<header th:replace="layout/body :: header"></header> <!-- header -->
+
+		<!--Actual Processing Section Start-->
+		<div class="page-wrapper">
+			<div class="page-content">
+				<!--breadcrumb-->
+				<div class="page-breadcrumb d-none d-sm-flex align-items-center mb-3">
+					<div class="breadcrumb-title pe-3">WFHS</div>
+					<div class="ps-3">
+						<nav aria-label="breadcrumb">
+							<ol class="breadcrumb mb-0 p-0">
+								<li class="breadcrumb-item"><a href="javascript:;"><i class="bx bx-home-alt"></i></a>
+								</li>
+								<li class="breadcrumb-item active" aria-current="page">Applied Form</li>
+							</ol>
+						</nav>
+					</div>
+				</div>
+				<hr>
+				
+				<div class="row">
+				<div class="col-xl-8 mx-auto">
+				<div class="card">
+					<div class="card-body p-4">
+							<h5 class="mb-4">Required Info</h5>
+							<h6 class="mb-0 steper-title">Enter your information to apply the Request Form</h6><br>	
+								<form class="row g-3 p-4" method="post" th:action="@{/applied/forms}" enctype="multipart/form-data" th:object="${applicantFormDto}" >
+									<div class="col-md-12">
+										<input type="hidden" id="userself" th:value="${userself}"/>
+										 <label for="input25" class="form-label">StaffID</label>
+										 <div class="input-group" th:if="${userself == 1}">
+											<span class="input-group-text" ><i class='bx bx-user'></i></span>
+											<input  th:value="${user.staffId}" style="height:45px;" type="text" class="form-control" placeholder="XX-XXXXX" readonly>
+											<input  th:value="${user.staffId}" name="applierStaffId" hidden>			
+										  </div>
+										  
+										  
+										  <div class="input-group" th:if="${userself == 0}">
+											 <span class="input-group-text" style="border:1px;  border-radius: 10%; background-color: #d9d9d9;"><i class='bx bx-buildings'></i></span>
+												<select  style="height:45px;  background-color:  #f2f2f2;" class="form-select"  id="staffId" th:field="${applicantFormDto.applierStaffId}">
+													<option  value=" ">Select ID</option>
+													<option th:each="user : ${users}" th:value="${user.staffId}"  th:text="${user.name + '(' + user.staffId +'-'+user.roleName+ ')'}"></option>
+									 			</select>
+										</div>
+									</div>
+									<div class="col-md-12">
+										<label for="input26" class="form-label">Name</label>
+										<div class="input-group">
+											<span class="input-group-text"><i class='bx bx-user'></i></span>
+											<input th:value="${user.name}" style="height:45px;" type="text" class="form-control" id="name" placeholder="Staff Name" readonly>
+										  </div>
+									</div>
+									<div class="col-md-12">
+										<label for="input27" class="form-label">Position</label>
+										<div class="input-group">
+											<span class="input-group-text"><i class='bx bx-envelope'></i></span>
+											<input th:value="${user.currentPosition}" style="height:45px;" type="text" class="form-control" id="currentPosition" placeholder="Position" readonly>
+										  </div>
+									</div>
+									<div class="col-md-12">
+										<label for="input28" class="form-label">Assigned Project/Team</label>
+										<div class="input-group">
+											<span class="input-group-text"><i class='bx bx-lock-alt'></i></span>
+											<input th:value="${user.teamName}" style="height:45px;" type="Text" class="form-control" id="teamName" placeholder="Team" readonly>
+										  </div>
+									</div>
+									<div class="col-md-12">
+										<label for="input29" class="form-label">Department</label>
+										<div class="input-group">
+											<span class="input-group-text"><i class='bx bx-calendar'></i></span>
+											<input th:value="${user.departmentName}" style="height:45px;" type="text" class="form-control" id="departmentName" placeholder="Department" readonly>
+										  </div>
+									</div>
+									<div class="col-md-12">
+										<label for="input30" class="form-label">Working Place</label>
+										<div class="input-group">
+											<span class="input-group-text"><i class='bx bx-flag'></i></span>
+											<select th:field="${applicantFormDto.workingPlace}" style="height:45px;" class="form-select" id="input30">
+												<option selected value="Yangon">Yangon</option>
+												<option value="Other">Other</option>
+											  </select>
+										  </div>
+									</div>
+									
+									<div class="col-md-6">
+										<label for="input31" class="form-label">From</label>
+										<div class="input-group">
+											<span class="input-group-text"><i class='bx bx-calendar'></i></span>
+											<input th:field="${applicantFormDto.fromDate}" style="height:45px;"  type="text"  class="form-control " id="fromDate" placeholder="From" required  readonly/>
+										  </div>
+								    </div>
+								    
+								    
+								    <div class="col-md-6">
+										<label for="input31" class="form-label">To</label>
+										<div class="input-group">
+											<span class="input-group-text"><i class='bx bx-calendar'></i></span>
+											<input th:field="${applicantFormDto.toDate}" style="height:45px;"  type="text"  class="form-control " id="toDate" placeholder="To" required readonly/>
+										  </div>
+								    </div>
+								    
+									<div class="col-md-12">
+										<label for="input32" class="form-label">WFH Request%</label>
+										<div class="input-group">
+											<span class="input-group-text"><i class='bx bx-buildings'></i></span>
+											<select th:field="${applicantFormDto.requestPercentage}" style="height:45px;" class="form-select"  id="requestPercent" name="requestPercent">
+													<option value="25">25%</option>
+													<option value="50">50%</option>
+													<option value="75">75%</option>
+													<option value="100">100%</option>
+												</select>
+										</div>
+									</div>
+									<div class="col-md-12">
+										<label for="input33" class="form-label">Request Reason</label>
+										<div class="input-group">
+											<span class="input-group-text"><i class='bx bxs-city'></i></span>
+											<textarea  th:field="${applicantFormDto.requestReason}" class="form-control"  id="requestReason" name="requestReason" placeholder="Reason ..." rows="2" required></textarea>
+										  </div>
+									</div>
+									<div class="col-md-12">
+										<label for="input33" class="form-label">Choose Your OS Type</label>
+											<div class="card bg-white">
+												<div class="card-body">
+													<div class="d-flex align-items-center gap-3">
+														<div class="input-group" >
+														<div class="form-check m-1">
+															<input th:field="${applicantFormDto.captureDto.osType}" class="form-check-input" type="radio" name="osType" id="window" required value="window">
+															<label class="form-check-label" for="window">Window</label>
+														</div>
+														<div class="form-check m-1">
+															<input th:field="${applicantFormDto.captureDto.osType}" class="form-check-input" type="radio" name="osType"  id="mac" required value="mac">
+															<label class="form-check-label" for="mac">Mac</label>
+														</div>
+														<div class="form-check m-1">
+															<input th:field="${applicantFormDto.captureDto.osType}" class="form-check-input" type="radio" name="osType" id="linux" required value="linux">
+															<label class="form-check-label" for="linux">Linux</label>
+														</div>
+														</div>
+													</div>
+												</div>
+											</div>
+								     </div>
+								     <!--Window OS Capture Upload Section Start -->
+								   <div class="col-md-12" id="windowDivision">
+									<hr/><h4 class="mb-0 text-uppercase">window capture display</h4><hr/>
+									<div class="card-group shadow" >
+										<div class="card shadow-none">
+											<img th:src="@{/assets/images/fancy_upload.png}"  id="imagePreview1" class="card-img-top custom-image" alt="...">
+											<div class="card-body">
+												<h5 class="card-title">1.Type of Operating System Capture</h5>
+												<p class="card-text">1. Press win key in keyboard</p>
+												<p class="card-text">2. Type &lt;winver&gt; in windows search box and [Enter]</p>
+												<hr>
+												<div class="d-flex justify-content-end">
+													<div class="align-items-right">
+														<label for="uploadButton1" class="btn btn-outline-dark px-5 radius-30">
+															<i class='bx bx-cloud-upload mr-1'></i>Upload
+														</label>
+														<input type="file" th:field="${applicantFormDto.captureDto.windowOsTypeImg}" style="display: none;" id="uploadButton1" onchange="previewImage(event, 'imagePreview1')">
+													</div>
+												</div>
+											</div>
+										</div>
+
+									</div>
+									<div class="card-group shadow">
+										<div class="card shadow">
+											<img  th:src="@{/assets/images/fancy_upload.png}" id="imagePreview2" class="card-img-top  custom-image" alt="...">
+											<div class="card-body">
+												<h5 class="card-title">2.Windows update security patch update status Capture</h5>
+												<p class="card-text">1.Press win key in keyboard</p>
+												<p class="card-text">2.Type &ltwindows security&gt in windows search box and [Enter]</p>
+												<p class="card-text">3.Select &ltDevice Performance & Health&gt</p>
+												<hr>
+												<div class="d-flex justify-content-end">
+													<div class="align-items-right">
+														<label for="uploadButton2" class="btn btn-outline-dark px-5 radius-30">
+															<i class='bx bx-cloud-upload mr-1'></i>Upload
+														</label>
+														<input type="file"  th:field="${applicantFormDto.captureDto.windowSecurityPatchUpdateImg}" style="display: none;" id="uploadButton2" onchange="previewImage(event, 'imagePreview2')">
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+									<div class="card-group shadow">
+										<div class="card shadow">
+											<img  th:src="@{/assets/images/fancy_upload.png}" id="imagePreview3" class="card-img-top custom-image" alt="...">
+											<div class="card-body">
+												<h5 class="card-title">3.Antivirus software Capture</h5>
+												<p class="card-text">1.Press win key in keyboard</p>
+												<p class="card-text">2.Type &ltappwiz.cpl&gt in windows search box and [Enter]</p>
+												<p class="card-text">3.Select &ltAntivirus Name&gt</p>
+												<hr>
+												<div class="d-flex justify-content-end">
+													<div class="align-items-right">
+														<label for="uploadButton3" class="btn btn-outline-dark px-5 radius-30">
+															<i class='bx bx-cloud-upload mr-1'></i>Upload
+														</label>
+														<input type="file"  th:field="${applicantFormDto.captureDto.windowAntivirusSoftwareImg}" style="display: none;" id="uploadButton3" onchange="previewImage(event, 'imagePreview3')">
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+									
+									<div class="card-group shadow">
+										<div class="card shadow">
+											<img  th:src="@{/assets/images/fancy_upload.png}" id="imagePreview4" class="card-img-top custom-image" alt="...">
+											<div class="card-body">
+												<h5 class="card-title">4.Antivirus pattern file update status Capture</h5>
+												<p class="card-text">1.Open Kaspersky application</p>
+												<p class="card-text">2.Select &ltTask&gt</p>
+												<p class="card-text">3.Update database need to be up to date</p>
+												<hr>
+												<div class="d-flex justify-content-end">
+													<div class="align-items-right">
+														<label for="uploadButton4" class="btn btn-outline-dark px-5 radius-30">
+															<i class='bx bx-cloud-upload mr-1'></i>Upload
+														</label>
+														<input th:field="${applicantFormDto.captureDto.antivirusPatternUpdatedImg}" type="file" style="display: none;" id="uploadButton4" onchange="previewImage(event, 'imagePreview4')">
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+									<div class="card-group shadow">
+										<div class="card shadow">
+											<img th:src="@{/assets/images/fancy_upload.png}" id="imagePreview5" class="card-img-top custom-image" alt="...">
+											<div class="card-body">
+												<h5 class="card-title">5.Antivirus full-scan status Capture</h5>
+												<p class="card-text">1.Open Kaspersky application</p>
+												<p class="card-text">2.Select &ltTask&gt</p>
+												<hr>
+												<div class="d-flex justify-content-end">
+													<div class="align-items-right">
+														<label for="uploadButton5" class="btn btn-outline-dark px-5 radius-30">
+															<i class='bx bx-cloud-upload mr-1'></i>Upload
+														</label>
+														<input type="file" th:field="${applicantFormDto.captureDto.antivirusFullScanImg}"  style="display: none;" id="uploadButton5" onchange="previewImage(event, 'imagePreview5')">
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+								<!--Window OS Capture Upload Section Start -->
+								
+								<!--Mac OS Capture Upload Section Start -->
+								<div class="col-md-12" id="macDivision">
+									<hr/><h4 class="mb-0 text-uppercase">Mac OS capture display</h4><hr/>
+									<div class="card-group shadow" >
+										<div class="card shadow-none">
+											<img th:src="@{/assets/images/fancy_upload.png}"  id="imagePreview6" class="card-img-top custom-image" alt="...">
+											<div class="card-body">
+												<h5 class="card-title">1.Type of Operating System Capture</h5>
+												<hr>
+												<div class="d-flex justify-content-end">
+													<div class="align-items-right">
+														<label for="uploadButton6" class="btn btn-outline-dark px-5 radius-30">
+															<i class='bx bx-cloud-upload mr-1'></i>Upload
+														</label>
+														<input type="file" th:field="${applicantFormDto.captureDto.macOsTypeImg}" style="display: none;" id="uploadButton6" onchange="previewImage(event, 'imagePreview6')">
+													</div>
+												</div>
+											</div>
+										</div>
+
+									</div>
+									<div class="card-group shadow">
+										<div class="card shadow">
+											<img  th:src="@{/assets/images/fancy_upload.png}" id="imagePreview7" class="card-img-top  custom-image" alt="...">
+											<div class="card-body">
+												<h5 class="card-title">2.MAC OS security patch update status</h5>
+												<p class="card-text">Procedure : </p>
+												<p class="card-text">1.Apple Menu >> System Preferences>>Software Update</p>
+												<hr>
+												<div class="d-flex justify-content-end">
+													<div class="align-items-right">
+														<label for="uploadButton7" class="btn btn-outline-dark px-5 radius-30">
+															<i class='bx bx-cloud-upload mr-1'></i>Upload
+														</label>
+														<input type="file"  th:field="${applicantFormDto.captureDto.macSecurityPatchUpdateImg}" style="display: none;" id="uploadButton7" onchange="previewImage(event, 'imagePreview7')">
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+									<div class="card-group shadow">
+										<div class="card shadow">
+											<img  th:src="@{/assets/images/fancy_upload.png}" id="imagePreview8" class="card-img-top custom-image" alt="...">
+											<div class="card-body">
+												<h5 class="card-title ">3.Antivirus software(built-in, open source antivirus or third party software)</h5>
+												<p class="card-text ">Procedure : </p>
+												<p class="card-text">1.Click the Apple menu > >About This Mac</p>		
+												<p class="card-text ">2.Tap on System Report > Software > Installation.</p>	
+												<p class="card-text ">3.Look for XProtectPlistConfigData.</p>		
+												<hr>
+												<div class="d-flex justify-content-end">
+													<div class="align-items-right">
+														<label for="uploadButton8" class="btn btn-outline-dark px-5 radius-30">
+															<i class='bx bx-cloud-upload mr-1'></i>Upload
+														</label>
+														<input type="file"  th:field="${applicantFormDto.captureDto.macAntivirusSoftwareImg}" style="display: none;" id="uploadButton8" onchange="previewImage(event, 'imagePreview8')">
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+								<!--Mac OS Capture Upload Section End -->	
+								
+								<!--Linux OS Capture Upload Section Start -->
+								<div class="col-md-12" id="linuxDivision">
+									<hr/><h4 class="mb-0 text-uppercase">Linux OS capture display</h4><hr/>
+									<div class="card-group shadow" >
+										<div class="card shadow-none">
+											<img th:src="@{/assets/images/fancy_upload.png}"  id="imagePreview9" class="card-img-top custom-image" alt="...">
+											<div class="card-body">
+												<h5 class="card-title">1.Type of Operating System Capture</h5>
+												<hr>
+												<div class="d-flex justify-content-end">
+													<div class="align-items-right">
+														<label for="uploadButton9" class="btn btn-outline-dark px-5 radius-30">
+															<i class='bx bx-cloud-upload mr-1'></i>Upload
+														</label>
+														<input type="file" th:field="${applicantFormDto.captureDto.linuxOsTypeImg}" style="display: none;" id="uploadButton9" onchange="previewImage(event, 'imagePreview9')">
+													</div>
+												</div>
+											</div>
+										</div>
+
+									</div>
+									<div class="card-group shadow">
+										<div class="card shadow">
+											<img  th:src="@{/assets/images/fancy_upload.png}" id="imagePreview10" class="card-img-top  custom-image" alt="...">
+											<div class="card-body">
+												<h5 class="card-title">2.Security patch is updated to latest version</h5>
+												<hr>
+												<div class="d-flex justify-content-end">
+													<div class="align-items-right">
+														<label for="uploadButton10" class="btn btn-outline-dark px-5 radius-30">
+															<i class='bx bx-cloud-upload mr-1'></i>Upload
+														</label>
+														<input type="file"  th:field="${applicantFormDto.captureDto.linuxSecurityPatchUpdateImg}" style="display: none;" id="uploadButton10" onchange="previewImage(event, 'imagePreview10')">
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+									<div class="card-group shadow">
+										<div class="card shadow">
+											<img  th:src="@{/assets/images/fancy_upload.png}" id="imagePreview11" class="card-img-top custom-image" alt="...">
+											<div class="card-body">
+												<h5 class="card-title">3.Antivirus software(built-in, open source antivirus or third party software)</h5>	
+												<hr>
+												<div class="d-flex justify-content-end">
+													<div class="align-items-right">
+														<label for="uploadButton11" class="btn btn-outline-dark px-5 radius-30">
+															<i class='bx bx-cloud-upload mr-1'></i>Upload
+														</label>
+														<input type="file"  th:field="${applicantFormDto.captureDto.linuxAntivirusSoftwareImg}" style="display: none;" id="uploadButton11" onchange="previewImage(event, 'imagePreview11')">
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+								<!--Linux OS Capture Upload Section End -->	
+								
+									<div class="col-md-12">
+											<hr><h4>Work From Home PC Requirements</h4> <hr>
+									</div>
+									<div class="col-md-1"><span class="important check1">*</span></div>
+									<div class="col-md-11">
+										<div class="form-check">
+											<input class="form-check-input" type="checkbox"   id="confirmOs">
+											<label id="checkList1" class="form-check-label" for="confirmOs"> At least windows 8.1(Window OS user, OS version should be more than windows 8.1 and needs to use Edge browser.)</label>
+										</div>
+									</div>
+									<div class="col-md-1"><span class="important check2">*</span></div>
+									<div class="col-md-11">
+										<div class="form-check">
+											<input class="form-check-input" type="checkbox"   id="confirmBrowser">
+											<label id="checkList2" class="form-check-label" for="confirmBrowser">Must use Edge browser for windows user and Safari browser for MAC OS user when access to DAT VDI</label>
+										</div>
+									</div>
+									<div class="col-md-1"><span class="important check3">*</span></div>
+									<div class="col-md-11">
+										<div class="form-check">
+											<input class="form-check-input" type="checkbox"   id="confirmSecurityPatch">
+											<label id="checkList3" class="form-check-label" for="confirmSecurityPatch">Windows update or Apple security patch is updated to latest version</label>
+										</div>
+									</div>
+									<div class="col-md-1"><span class="important check4">*</span></div>
+									<div class="col-md-11">
+										<div class="form-check">
+											<input class="form-check-input" type="checkbox"  id="confirmAntivirusSoftware">
+											<label id="checkList4" class="form-check-label" for="confirmAntivirusSoftware">Already Installed one of antivirus software(built-in, open source antivirus or third party software</label>
+										</div>
+									</div>
+									<div class="col-md-1"><span class="important check5">*</span></div>
+									<div class="col-md-11">
+										<div class="form-check">
+											<input class="form-check-input" type="checkbox"  id="confirmAntivirusPattern">
+											<label id="checkList5" class="form-check-label" for="confirmAntivirusPattern">Already updated latest antivirus pattern file</label>
+										</div>
+									</div>
+									<div class="col-md-1"><span class="important check6">*</span></div>
+									<div class="col-md-11">
+										<div class="form-check">
+											<input class="form-check-input" type="checkbox"  id="confirmAntivirusFullScan">
+											<label id="checkList6" class="form-check-label" for="confirmAntivirusFullScan">Antivirus full-scan have finished</label>
+										</div>
+									</div>
+									
+								<div class="col-md-12">
+										<hr><h4>Employee Pledge</h4> <hr>
+								</div>
+								<div class="col-md-1"><span class="important">*</span></div>
+								<div class="col-md-11">
+									<div class="form-check">
+										<input class="form-check-input"  type="checkbox" id="listConfirm">
+										<label id="listConfirmLabel" class="form-check-label" for="listConfirm">
+												I acknowledge that I will follow Information Security Policy, Personal Information Handling Policy and Business Continuity Policy released by DIR-ACE Technology Ltd.
+										</label>
+									</div>
+								</div>
+									<hr>
+									<div class="col-md-5"></div>
+									<div class="col-md-4">
+										<label for="input31" class="form-label">Employee Sign(Upload Image)</label>
+										<hr>
+										<div class="card bg-white">
+											<div class="card-body">
+											<label for="uploadButton12">
+												<img style="margin-left:1px;" th:src="@{/assets/images/fancy_upload.png}" alt="Upload Logo 12"
+													id="imagePreview12" class="signImg">
+											</label>
+											<input th:field="${applicantFormDto.signatureImg}" type="file" id="uploadButton12"
+												style="display: none;"  onchange="previewImage(event, 'imagePreview12')">
+										</div>
+										</div>
+
+									</div>
+									
+									<div class="col-md-3">
+										<label for="input31" class="form-label">Signed Date</label>
+										<hr>
+										<input th:field="${applicantFormDto.signDate}" style="height:60px;" type="date" class="form-control " required readonly/>
+									</div>
+									
+									<div class="col-md-12">
+										<div class="d-md-flex d-grid align-items-center gap-3">
+											<button type="submit" class="btn btn-primary px-4" >Submit</button>
+											<button type="reset" class="btn btn-light px-4">Reset</button>
+										</div>
+									</div>
+								</form>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>	
+		</div>
+		</div>
+		<!--Actual Processing Section Eend-->
+
+		<!--start overlay-->
+		<div class="overlay toggle-icon"></div>
+		<!--end overlay-->
+		<!--Start Back To Top Button--> <a href="javaScript:;" class="back-to-top"><i
+				class='bx bxs-up-arrow-alt'></i></a>
+		<!--End Back To Top Button-->
+		<footer class="page-footer">
+			<p class="mb-0">Copyright © 2023. All right reserved.</p>
+		</footer>
+	<!--end wrapper-->
+	<!-- Bootstrap JS -->
+	<script src="/assets/js/bootstrap.bundle.min.js"></script>
+	<!--plugins-->
+	<script src="/assets/js/jquery.min.js"></script>
+	<script src="/assets/plugins/simplebar/js/simplebar.min.js"></script>
+	<script src="/assets/plugins/metismenu/js/metisMenu.min.js"></script>
+	<script src="/assets/plugins/perfect-scrollbar/js/perfect-scrollbar.js"></script>
+	<script src="/assets/plugins/bs-stepper/js/bs-stepper.min.js"></script>
+	<script src="/assets/plugins/bs-stepper/js/main.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+	<script src="/assets/js/formUpload.js"></script>
+	<script src="/assets/js/app.js"></script>
+	<script src="/assets/js/form-approve.js"></script>
+	<script src="/assets/js/validation.js"></script>
+</body>
+</html>

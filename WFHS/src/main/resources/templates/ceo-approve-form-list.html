@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="layout/header :: header-link (pageTitle='CEO Approved Form List')" ></head>
+<body>
+    <div class="wrapper">
+        <div th:fragment="sidebar" th:replace="layout/body :: sidebar" ></div><!--sidebar -->
+        <header th:replace="layout/body :: header"></header> <!-- header -->
+        
+        <!--Actual Processing Section Start-->
+        <div class="page-wrapper">
+			<div class="page-content">
+				<!--breadcrumb-->
+                <div class="page-breadcrumb d-none d-sm-flex align-items-center mb-3">
+					<div class="breadcrumb-title pe-3">WFHS</div>
+					<div class="ps-3">
+						<nav aria-label="breadcrumb">
+							<ol class="breadcrumb mb-0 p-0">
+								<li class="breadcrumb-item"><a href="javascript:;"><i class="bx bx-home-alt"></i></a>
+								</li>
+								<li class="breadcrumb-item active" aria-current="page">CEO Approved Applied Form List</li>
+							</ol>
+						</nav>
+					</div>
+                </div>
+				<!--end breadcrumb-->
+
+                <div class="card">
+					<div class="card-body bg-warning" th:if="${forms.size() <= 0}">
+						<h3>There is no final approved forms to download for OTP sending process</h3>
+					</div>
+					<div class="card-body" th:if="${forms.size() >= 1}">
+						<div class="table-responsive" >
+                            <div style="margin-bottom:10px;">
+                               <div class="row">
+									<h4 class="mt-4">Info: Export to excel following list to sent OTP</h4>
+								    <div class="col-9"></div>
+									<div class="col-3 mb-4">
+											<a th:href="@{/approved/download/staffId-for-otp/{Ids}(Ids=${Ids})}" >
+												<button type="button" class="btn btn-success px-5 radius-30" >
+													<i class='bx bx-cloud-download mr-1'></i>Export To Excel
+												</button>
+											</a>
+									</div>
+                               </div>
+                           
+							<table class="table mb-0">
+								<thead class="table-light">
+									<tr>
+										<th>No</th>
+										<th>Staff ID</th>
+										<th>Name</th>
+										<th>Working Place</th>
+                                        <th>Team</th>
+                                        <th>Department</th>
+                                        <th>Division</th>
+                                        <th>Apply Date</th>
+                                        <th>Remark</th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr th:each="form,increator: ${forms}">
+										<td><div class="d-flex align-items-center">
+												<div class="ms-2">
+													<h6 class="mb-0 font-14" th:text="${increator.index + 1}"></h6>
+												</div>
+										</div></td>
+										<td th:text="${form.operation[0].user.staffId}"></td>
+										<td th:text="${form.operation[0].user.name}"></td>
+										<td th:text="${form.workingPlace}"></td>
+                                        <td th:text="${form.operation[0].user.teamName}"></td>
+                                        <td th:text="${form.operation[0].user.departmentName}"></td>
+                                        <td th:text="${form.operation[0].user.divisionName}"></td>
+										<td th:text="${form.signDate}"></td>
+										<td th:text="${form.operation[0].user.staffId == form.applierStaffId ? 'Applied by himself' : 'Applied by Team Mate (' + form.applierStaffId + ')'}"></td>
+									</tr>                                   
+								</tbody>
+							</table>
+						</div>
+					</div>
+				</div>
+            </div>
+        </div>
+        </div>
+        </div>
+        <!--Actual Processing Section End-->
+<div th:include="layout/footer"></div>

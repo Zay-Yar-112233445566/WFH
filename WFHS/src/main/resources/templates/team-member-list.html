@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+	   xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head th:replace="layout/header :: header-link"></head>
+<body>
+    <div class="wrapper">
+        <div th:fragment="sidebar" th:replace="layout/body :: sidebar" ></div><!--sidebar -->
+        <header th:replace="layout/body :: header"></header> <!-- header -->
+        
+        <!--Actual Processing Section Start-->
+        <div class="page-wrapper">
+			<div class="page-content">
+				<!--breadcrumb-->
+                <div class="page-breadcrumb d-none d-sm-flex align-items-center mb-3">
+					<div class="breadcrumb-title pe-3">WFHS</div>
+					<div class="ps-3">
+						<nav aria-label="breadcrumb">
+							<ol class="breadcrumb mb-0 p-0">
+								<li class="breadcrumb-item"><a href="javascript:;"><i class="bx bx-home-alt"></i></a>
+								</li>
+								<li class="breadcrumb-item active" aria-current="page">Members List</li>
+							</ol>
+						</nav>
+					</div>
+                </div>
+				<!--end breadcrumb-->
+                <div class="card">
+					<div class="card-body">
+						<div class="table-responsive">
+							<table class="table mb-0">
+								<thead class="table-light">
+									<tr>
+										<th>No</th>
+										<th>Applicant ID</th>
+										<th>Applicant Name</th>
+                                        <th>Position</th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr th:each="users,increator: ${users}">
+										<td>
+											<div class="d-flex align-items-center">
+												<div class="ms-2">
+													<h6 class="mb-0 font-14" th:text="${increator.index + 1}"></h6>
+												</div>
+											</div>
+										</td>
+										<td th:text="${users.staffId}"></td>
+										<td th:text="${users.name}"></td>
+                                        <td th:text="${users.currentPosition}"></td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+					</div>
+				</div>
+            </div>
+        </div>
+        <!--Actual Processing Section End-->
+<div th:include="layout/footer"></div>

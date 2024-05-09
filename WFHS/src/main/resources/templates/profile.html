@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+	   xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head th:replace="layout/header :: header-link">
+</head>
+<body>
+    <div class="wrapper">
+        <div th:fragment="sidebar" th:replace="layout/body :: sidebar" ></div><!--sidebar -->
+        <header th:replace="layout/body :: header"></header> <!-- header -->
+        
+        <!--start page wrapper -->
+		<div class="page-wrapper">
+			<div class="page-content">
+				<!--breadcrumb-->
+				<div class="page-breadcrumb d-none d-sm-flex align-items-center mb-3">
+					<div class="breadcrumb-title pe-3">User Profile</div>
+					<div class="ps-3">
+						<nav aria-label="breadcrumb">
+							<ol class="breadcrumb mb-0 p-0">
+								<li class="breadcrumb-item"><a href="javascript:;"><i class="bx bx-home-alt"></i></a>
+								</li>
+								<li class="breadcrumb-item active" aria-current="page">User Profile</li>
+							</ol>
+						</nav>
+					</div>
+				</div>
+				<!--end breadcrumb-->
+				<div class="container">
+					<div class="main-body">
+							<div th:if="${required}" class="alert alert-warning border-0 bg-warning alert-dismissible fade show py-2">
+							    <div class="d-flex align-items-center">					
+							        <div class="font-35 text-dark"><i class='bx bx-info-circle'></i>					
+							        </div>					
+							        <div class="ms-3">					
+							            <h6 class="mb-0 text-dark">Need Email</h6>					
+							            <div class="text-dark">You don't have an email yet. If you forget your password, you need an email to receive the OTP code.</div>					
+							        </div>					
+							    </div>					
+							    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>					
+							</div>
+							<div th:if="${success}" class="alert alert-success border-0 bg-success alert-dismissible fade show py-2">
+							    <div class="d-flex align-items-center">				
+							        <div class="font-35 text-white"><i class='bx bxs-check-circle'></i>					
+							        </div>					
+							        <div class="ms-3">					
+							            <h6 class="mb-0 text-white">Success</h6>					
+							            <div class="text-white">Password change has been successful!</div>					
+							        </div>					
+							    </div>					
+							    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>					
+							</div>
+							<div th:if="${fail}" class="alert alert-warning border-0 bg-warning alert-dismissible fade show py-2">
+							    <div class="d-flex align-items-center">					
+							        <div class="font-35 text-dark"><i class='bx bx-info-circle'></i>					
+							        </div>					
+							        <div class="ms-3">					
+							            <h6 class="mb-0 text-dark">Warning</h6>					
+							            <div class="text-dark">New Password and Confirm Password are not match!</div>					
+							        </div>					
+							    </div>					
+							    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>					
+							</div>
+							<div th:if="${error}" class="alert alert-danger border-0 bg-danger alert-dismissible fade show py-2">
+							    <div class="d-flex align-items-center">					
+							        <div class="font-35 text-white"><i class='bx bxs-message-square-x'></i>					
+							        </div>					
+							        <div class="ms-3">					
+							            <h6 class="mb-0 text-white">Error</h6>					
+							            <div class="text-white">Current Password is incorrect.</div>					
+							        </div>					
+							    </div>					
+							    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>					
+							</div>			
+						<div class="row" style="display: flex;">
+							<div th:object="${user}" class="form-container">
+								<form class="form">
+									<div class="profile-pic">
+										<label for="profile-image-upload">
+											<img id="profile-image"
+												src="https://bootdey.com/img/Content/avatar/avatar1.png"
+												class="rounded-circle img-responsive mt-2" width="128" height="128">
+										</label>
+										<div class="mt-3">
+											<h4 th:text="${user.name}"></h4>
+											<p class="text-secondary mb-1" th:text="${user.currentPosition}"></p>
+										</div>
+										<input style="display: none;" id="profile-image-upload" class="hidden"
+											type="file" onchange="previewFile()">
+									</div>
+									<div class="form-group">
+										<label for="staffId">Staff ID</label>
+										<input type="text" class="form-control" th:field="${user.staffId}" readonly />
+									</div>
+									<div class="form-group">
+										<label for="name">Staff Name</label>
+										<input type="text" class="form-control" th:field="${user.name}" readonly />
+									</div>
+									<!-- div class="form-group">
+										<label for="email">Phone</label>
+										<input type="text" class="form-control" value="09 09774735184" readonly />
+									</div -->
+									<div class="form-group">
+										<label for="teamName">Team Name</label>
+										<input type="text" class="form-control" th:field="${user.teamName}" readonly />
+									</div>
+									<div class="form-group">
+										<label for="departmentName">Department Name</label>
+										<input type="text" class="form-control" th:field="${user.departmentName}" readonly />
+									</div>
+									<div class="form-group">
+										<label for="divisionName">Division Name</label>
+										<input type="text" class="form-control" th:field="${user.divisionName}" readonly />
+									</div>
+								</form>
+							</div>
+							
+								<div class="form-container4" style="margin-left: 37px;">
+								<div th:if="${required}">
+									<form th:action="@{/email-submit}" class="form form-container3" method="post" style="margin-left: -27px;">
+										<div class="form-group">
+											<label for="email">Enter Email</label>
+											<input required name="email" id="email" type="text">
+											<span id="emailErrorMessage" class="text-danger" style="display: none;">Email already exists</span>
+										</div>
+										<button type="submit" class="form-submit-btn">Submit</button>
+									</form>
+								</div>
+									<form th:action="@{/change-password}" method="post" class="form form-container2" style="margin-left: -27px; margin-top: 30px;">
+										<div class="form-group">
+											<label for="password">Current Password</label>
+											<input name="currentPassword" id="password" type="password" required>
+										</div>
+										<div class="form-group">
+											<label for="textarea">New Password</label>
+											<input name="newPassword" id="newpassword" type="password" required>
+										</div>
+										<div class="form-group">
+											<label for="textarea">Confirm Password</label>
+											<input name="confirmPassword" id="newpassword" type="password" required>
+										</div>
+										<button type="submit" class="form-submit-btn">Save Changes</button>
+									</form>
+								</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!--end page wrapper -->
+	<script src="/assets/js/applicant.js"></script>
+<div th:include="layout/footer"></div>

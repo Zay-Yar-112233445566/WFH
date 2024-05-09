@@ -1,0 +1,661 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="layout/header :: header-link"></head>
+<body>
+	<div class="wrapper">
+       	<div th:fragment="sidebar" th:replace="layout/body :: sidebar" ></div><!--sidebar -->
+		<header th:replace="layout/body :: header"></header> <!-- header -->
+
+		<!--Actual Processing Section Start-->
+		<div class="page-wrapper">
+			<div class="page-content">
+				<!--breadcrumb-->
+				<div class="page-breadcrumb d-none d-sm-flex align-items-center mb-3">
+					<div class="breadcrumb-title pe-3">WFHS</div>
+					<div class="ps-3">
+						<nav aria-label="breadcrumb">
+							<ol class="breadcrumb mb-0 p-0">
+								<li class="breadcrumb-item"><a href="javascript:;"><i class="bx bx-home-alt"></i></a>
+								</li>
+								<li class="breadcrumb-item active" aria-current="page">Applied Form</li>
+							</ol>
+						</nav>
+					</div>
+				</div>
+				<hr>
+				
+				<div class="row">
+				<div class="col-xl-9 mx-auto">
+				<div class="card">
+					<div class="card-body p-4">
+							<hr>
+							<div class="card-header px-4 py-1">
+								<h3 class="mb-0">Applicant Form Approval</h3>
+							</div>
+							<form class="row g-3 p-4" >
+								<div class="col-md-12">
+									<label for="input25" class="form-label">StaffID</label>
+									<div class="input-group">
+										<span class="input-group-text"><i class='bx bx-user'></i></span>
+										<input th:value="${form.operation[0].user.staffId}" id="input35" style="height:45px;" type="text" class="form-control" placeholder="XX-XXXXX" readonly>
+									</div>
+								</div>
+								<div class="col-md-12">
+									<label for="input26" class="form-label">Name</label>
+									<div class="input-group">
+										<span class="input-group-text"><i class='bx bx-user'></i></span>
+										<input th:value="${form.operation[0].user.name}" style="height:45px;" type="text" class="form-control" readonly>
+									</div>
+								</div>
+								<div class="col-md-12">
+									<label for="input27" class="form-label">Position</label>
+									<div class="input-group">
+										<span class="input-group-text"><i class='bx bx-envelope'></i></span>
+										<input th:value="${form.operation[0].user.currentPosition}" style="height:45px;" type="text" class="form-control"  readonly>
+									</div>
+								</div>
+								<div class="col-md-12">
+									<label for="input28" class="form-label">Assigned Project/Team</label>
+									<div class="input-group">
+										<span class="input-group-text"><i class='bx bx-lock-alt'></i></span>
+										<input th:value="${form.operation[0].user.teamName}" style="height:45px;" type="Text" class="form-control"  readonly>
+									</div>
+								</div>
+								<div class="col-md-12">
+									<label for="input29" class="form-label">Department</label>
+									<div class="input-group">
+										<span class="input-group-text"><i class='bx bx-calendar'></i></span>
+										<input th:value="${form.operation[0].user.departmentName}" style="height:45px;" type="text" class="form-control"  readonly>
+									</div>
+								</div>
+								<div class="col-md-12">
+									<label for="input30" class="form-label">Working Place</label>
+									<div class="input-group">
+										<span class="input-group-text"><i class='bx bx-flag'></i></span>
+										<select th:value="${form.workingPlace}" style="height:45px;" class="form-select" id="input30">
+											<option selected value="Yangon">Yangon</option>
+											<option value="Other">Other</option>
+										</select>
+									</div>
+								</div>
+							
+								<div class="col-md-6">
+									<label for="input31" class="form-label">From</label>
+									<div class="input-group">
+										<span class="input-group-text"><i class='bx bx-calendar'></i></span>
+										<input th:value="${form.fromDate}" style="height:45px;" type="text" class="form-control datepicker" id="fromDate" readonly />
+									</div>
+								</div>
+							
+							
+								<div class="col-md-6">
+									<label for="input31" class="form-label">To</label>
+									<div class="input-group">
+										<span class="input-group-text"><i class='bx bx-calendar'></i></span>
+										<input th:value="${form.toDate}" style="height:45px;" type="text" class="form-control datepicker" id="toDate" readonly />
+									</div>
+								</div>
+							
+								<div class="col-md-12">
+									<label for="input32" class="form-label">WFH Request%</label>
+									<div class="input-group">
+										<span class="input-group-text"><i class='bx bx-buildings'></i></span>
+										<select  th:value="${form.requestPercentage}" style="height:45px;" class="form-select"
+											id="requestPercent" name="requestPercent">
+											<option value="25">25%</option>
+											<option value="50">50%</option>
+											<option value="75">75%</option>
+											<option value="100">100%</option>
+										</select>
+									</div>
+								</div>
+								<div class="col-md-12">
+									<label for="input33" class="form-label">Request Reason</label>
+									<div class="input-group">
+										<span class="input-group-text"><i class='bx bxs-city'></i></span>
+										<textarea th:field="${form.requestReason}" class="form-control" id="requestReason" name="requestReason" placeholder="Reason ..." rows="4" readonly></textarea>
+									</div>
+								</div>
+								<div class="col-md-12">
+									<label for="input33" class="form-label">Your OS Type</label>
+									<div class="card bg-white">
+										<div class="card-body">
+											<div class="d-flex align-items-center gap-3">
+												<div class="input-group">
+													<div class="form-check m-1" th:if="${form.capture.osType == 'window'}">
+														<input th:field="${form.capture.osType}" class="form-check-input" type="radio" name="osType" id="window" required value="window" readonly>
+														<label class="form-check-label" for="window">Window</label>
+													</div>
+													<div class="form-check m-1" th:if="${form.capture.osType == 'mac'}">
+														<input th:field="${form.capture.osType}" class="form-check-input" type="radio" name="osType" id="mac" required value="mac">
+														<label class="form-check-label" for="mac">Mac</label>
+													</div>
+													<div class="form-check m-1" th:if="${form.capture.osType == 'linux'}">
+														<input th:field="${form.capture.osType}" class="form-check-input" type="radio" name="osType" id="linux" required value="linux">
+														<label class="form-check-label" for="linux">Linux</label>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+								
+								<div class="col-md-12">
+									<hr/>
+										<h4 class="mb-0 text-uppercase" th:if="${form.capture.osType == 'window'}">Window capture display</h4>
+										<h4 class="mb-0 text-uppercase" th:if="${form.capture.osType == 'mac'}">Mac OS capture display</h4>
+										<h4 class="mb-0 text-uppercase" th:if="${form.capture.osType == 'linux'}">Linux capture display</h4>
+									<hr/>
+									<div class="card-group shadow"  th:if="${form.capture.osType == 'window' or form.capture.osType == 'mac' or form.capture.osType == 'linux'}">
+										<div class="card shadow-none">
+											<img th:src="@{'/images/' + ${form.capture.osTypeImg}}"   class="card-img-top custom-image" alt="...">
+											<div class="card-body">
+												<h5 class="card-title" th:if="${form.capture.osType == 'window'}" >Type of Operating System(Window)</h5>
+												<h5 class="card-title" th:if="${form.capture.osType == 'mac'}">Type of Operating System(Mac)</h5>
+												<h5 class="card-title" th:if="${form.capture.osType == 'linux'}">Type of Operating System(Linux)</h5>
+												<hr>
+												<div class="d-flex justify-content-end">
+													<div class="align-items-right">
+														<button type="button" class="btn btn-outline-dark px-5 radius-30" data-bs-toggle="modal" data-bs-target="#osTypeModal">View More</button>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+									<div class="card-group shadow" th:if="${form.capture.osType == 'window' or form.capture.osType == 'mac' or form.capture.osType == 'linux'}">
+										<div class="card shadow">
+											<img th:if="${form.capture.securityPatchUpdateImg ne null}" th:src="@{'/images/' + ${form.capture.securityPatchUpdateImg}}" id="imagePreview2" class="card-img-top  custom-image" alt="...">
+											<div class="card-body">
+												<h5 class="card-title" th:if="${form.capture.osType == 'window'}" >Windows update security patch update status Capture</h5>
+												<h5 class="card-title" th:if="${form.capture.osType == 'mac'}">MAC OS security patch update status</h5>
+												<h5 class="card-title" th:if="${form.capture.osType == 'linux'}">Linux Security patch is updated to latest version</h5>
+												<hr>
+												<div class="d-flex justify-content-end">
+													<div class="align-items-right">
+														<button type="button" class="btn btn-outline-dark px-5 radius-30" data-bs-toggle="modal" data-bs-target="#securityPatchUpdateModal">View More</button></div>
+												</div>
+											</div>
+										</div>
+									</div>
+									<div class="card-group shadow" th:if="${form.capture.osType == 'window' or form.capture.osType == 'mac' or form.capture.osType == 'linux'}">
+										<div class="card shadow">
+											<img th:if="${form.capture.antivirusSoftwareImg ne null}" th:src="@{'/images/' + ${form.capture.antivirusSoftwareImg}}" id="imagePreview3" class="card-img-top custom-image" alt="...">
+											<div class="card-body">
+												<h5 class="card-title" th:if="${form.capture.osType == 'window'}" >Antivirus software Capture(Window)</h5>
+												<h5 class="card-title" th:if="${form.capture.osType == 'mac'}" >Antivirus software Capture(Mac)</h5>
+												<h5 class="card-title" th:if="${form.capture.osType == 'linux'}" >Antivirus software Capture(Linux)</h5>
+												<hr>
+												<div class="d-flex justify-content-end">
+													<div class="align-items-right">
+														<button type="button" class="btn btn-outline-dark px-5 radius-30" data-bs-toggle="modal" data-bs-target="#antivirusSoftwareImgModal">View More</button></div>
+												</div>
+												</div>
+											</div>
+										</div>
+									
+									<div class="card-group shadow" th:if="${form.capture.osType == 'window'}">
+										<div class="card shadow">
+											<img th:if="${form.capture.antivirusPatternUpdatedImg ne null}" th:src="@{'/images/' + ${form.capture.antivirusPatternUpdatedImg}}" id="imagePreview4" class="card-img-top custom-image" alt="...">
+											<div class="card-body">
+												<h5 class="card-title">Antivirus pattern file update status Capture</h5>
+												<hr>
+												<div class="d-flex justify-content-end">
+													<div class="align-items-right">
+														<button type="button" class="btn btn-outline-dark px-5 radius-30" data-bs-toggle="modal" data-bs-target="#antivirusPatternUpdatedImgModal">View More</button></div>
+												   </div>
+												</div>
+											</div>
+										</div>
+									
+									<div class="card-group shadow" th:if="${form.capture.osType == 'window'}">
+										<div class="card shadow" >
+											<img th:if="${form.capture.antivirusFullScanImg ne null}" th:src="@{'/images/' + ${form.capture.antivirusFullScanImg}}" id="imagePreview5" class="card-img-top custom-image" alt="...">
+											<div class="card-body">
+												<h5 class="card-title">Antivirus full-scan status Capture</h5>
+												<hr>
+												<div class="d-flex justify-content-end">
+													<div class="align-items-right">
+														<button type="button" class="btn btn-outline-dark px-5 radius-30" data-bs-toggle="modal" data-bs-target="#antivirusFullScanImgModal">View More</button></div>
+													</div>
+												</div>
+											</div>
+									</div>
+								</div>
+								
+									<div class="col-md-12">
+											<hr><h4>Work From Home PC Requirements</h4> <hr>
+									</div>
+									<div class="col-md-1"><span class="important">*</span></div>
+									<div class="col-md-11">
+										<div class="form-check">
+											<input class="form-check-input" type="checkbox"  checked readonly>
+											<label class="form-check-label"> At least windows 8.1(Window OS user, OS version should be more than windows 8.1 and needs to use Edge browser.)</label>
+										</div>
+									</div>
+									<div class="col-md-1"><span class="important">*</span></div>
+									<div class="col-md-11">
+										<div class="form-check">
+											<input class="form-check-input" type="checkbox"  checked readonly>
+											<label class="form-check-label" >Must use Edge browser for windows user and Safari browser for MAC OS user when access to DAT VDI</label>
+										</div>
+									</div>
+									<div class="col-md-1"><span class="important">*</span></div>
+									<div class="col-md-11">
+										<div class="form-check">
+											<input class="form-check-input" type="checkbox"  checked readonly>
+											<label class="form-check-label" >Windows update or Apple security patch is updated to latest version</label>
+										</div>
+									</div>
+									<div class="col-md-1"><span class="important">*</span></div>
+									<div class="col-md-11">
+										<div class="form-check">
+											<input class="form-check-input" type="checkbox"  checked readonly>
+											<label class="form-check-label">Already Installed one of antivirus software(built-in, open source antivirus or third party software</label>
+										</div>
+									</div>
+									<div class="col-md-1"><span class="important">*</span></div>
+									<div class="col-md-11">
+										<div class="form-check">
+											<input class="form-check-input" type="checkbox"  checked readonly>
+											<label class="form-check-label">Already updated latest antivirus pattern file</label>
+										</div>
+									</div>
+									<div class="col-md-1"><span class="important">*</span></div>
+									<div class="col-md-11">
+										<div class="form-check">
+											<input class="form-check-input" type="checkbox"  checked readonly>
+											<label class="form-check-label" >Antivirus full-scan have finished</label>
+										</div>
+									</div>
+									
+								<div class="col-md-12">
+										<hr><h4>Employee Pledge</h4> <hr>
+								</div>
+								<div class="col-md-1"><span class="important">*</span></div>
+								<div class="col-md-11">
+									<div class="form-check">
+										<input class="form-check-input" checked type="checkbox" id="pledgeCheckbox">
+										<label class="form-check-label">
+												I acknowledge that I will follow Information Security Policy, Personal Information Handling Policy and Business Continuity Policy released by DIR-ACE Technology Ltd.
+										</label>
+									</div>
+								</div>
+								<hr>
+								<div class="col-md-5"></div>
+								<div class="col-md-4">
+									<label for="input31" class="form-label">Employee Sign(Upload Image)</label>
+									<hr>
+									<div class="card shadow-none">
+											<img th:src="@{'/images/' + ${form.signatureImg}}" alt="..." id="signImg">
+								   </div>
+								</div>
+								<div class="col-md-3">
+									<label for="input31" class="form-label">Signed Date</label>
+									<hr>
+									<input th:field="${form.signDate}" style="height:60px;" type="date" class="form-control datepicker " readonly />
+									<input type="text" id="operationId" th:value="${form.operation[0].id}" hidden/>
+								</div>
+								
+								<!--For Project Manager Start-->
+								<hr>
+									<div sec:authorize="hasAnyAuthority('PROJECT_MANAGER')">
+										<div class="row mb-3">
+											<div class="col-sm-4">
+												<label for="managerApproveReason" class="form-label"><b>Project Manager Approval</b></label>
+											</div>
+											<div class="col-sm-8">
+												<textarea class="form-control" id="managerApproveReason" name="managerApproveReason" rows="3" placeholder="Approve or Reject Reason"></textarea>
+											</div>
+										</div>
+										<hr>
+									</div>
+									
+									<!--Project Manager Approve Section-->
+									
+									<div class="row" sec:authorize="hasAnyAuthority('PROJECT_MANAGER')">
+										<div class="col-sm-8"></div>
+										<div class="col-sm-4">
+											<div class="d-md-flex d-grid align-items-center gap-3">
+												<div class="row row-cols-auto g-3">
+													<div class="col">
+   														<button type="button" id="managerApproveButton" onclick="approve('PROJECT_MANAGER', 'approve')" class="btn btn-success" placeholder="Approve or Reject Reason">Approve</button>
+													</div>
+													<div class="col">
+														<button type="button" class="btn btn-danger px-4" onclick="approve('PROJECT_MANAGER', 'reject')">Reject</button>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div><br>
+									<!--Project Manager  End-->
+									
+									<!--Department Head Start-->
+									<div sec:authorize="hasAnyAuthority('DEPARTMENT_HEAD')">
+										<div class="row mb-3">
+											<div class="col-sm-4">
+												<label for="departmentHeadApproveReason" rows="3"><b>Department Head Approval</b></label>
+											</div>
+											
+											<div class="col-sm-8"> 
+												<textarea class="form-control" id="departmentHeadApproveReason" name="departmentHeadApproveReason" rows="3" placeholder="Approve or Reject Reason"></textarea>											
+											</div>
+										</div>
+										<hr>
+									</div>
+									<div class="row" sec:authorize="hasAnyAuthority('DEPARTMENT_HEAD')">
+										<div class="col-sm-8"></div>
+										<div class="col-sm-4">
+											<div class="d-md-flex d-grid align-items-center gap-3">
+												<div class="row row-cols-auto g-3">
+													<div class="col">
+   														<button type="button" id="departmentHeadApproveButton" onclick="approve('DEPARTMENT_HEAD', 'approve')" class="btn btn-success">Approve</button>
+													</div>
+													<div class="col">
+														<button type="button" class="btn btn-danger px-4" onclick="approve('DEPARTMENT_HEAD', 'reject')">Reject</button>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div><br>
+									<!--Department Head End-->
+									
+									<!--Division Head Start-->
+									<div sec:authorize="hasAnyAuthority('DIVISION_HEAD')">
+										<div class="row mb-3">
+											<div class="col-sm-4">
+												<label for="divisionHeadApproveReason" rows="3"><b>Division Head Approval</b></label>
+											</div>
+											<div class="col-sm-8">
+												<textarea class="form-control" id="divisionHeadApproveReason" name="divisionHeadApproveReason" rows="3" placeholder="Approve or Reject Reason"></textarea>	
+											</div>
+										</div>
+										<hr>
+									</div>
+									<div class="row" sec:authorize="hasAnyAuthority('DIVISION_HEAD')">
+										<div class="col-sm-8"></div>
+										<div class="col-sm-4">
+											<div class="d-md-flex d-grid align-items-center gap-3">
+												<div class="row row-cols-auto g-3">
+													<div class="col">
+   														<button type="button" id="divisionHeadApproveButton" onclick="approve('DIVISION_HEAD', 'approve')" class="btn btn-success">Approve</button>
+													</div>
+													<div class="col">
+														<button type="button" class="btn btn-danger px-4" onclick="approve('DIVISION_HEAD', 'reject')">Reject</button>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div><br>
+									<!--Division Head End-->
+									
+									<!--CISO  Start-->
+									<div sec:authorize="hasAnyAuthority('CISO')">
+									<div class="row mb-3 g-3 p-4">
+									<div class="col-md-12">
+											<hr><h4>Check List for CISO</h4> <hr>
+									</div>
+									<div class="col-md-1"><span class="important check1">*</span></div>
+									<div class="col-md-11">
+										<div class="form-check">
+											<input class="form-check-input" type="checkbox"  id="confirmOs"  >
+											<label id="checkList1" class="form-check-label" for="confirmOs">1.Confirmed windows OS version check evidence</label>
+										</div>
+									</div>
+									<div class="col-md-1"><span class="important check2">*</span></div>
+									<div class="col-md-11">
+										<div class="form-check">
+											<input class="form-check-input" type="checkbox"  id="confirmBrowser">
+											<label id="checkList2" class="form-check-label" for="confirmBrowser">2.Confirm browser name</label>
+										</div>
+									</div>
+									<div class="col-md-1"><span class="important check3">*</span></div>
+									<div class="col-md-11">
+										<div class="form-check">
+											<input class="form-check-input" type="checkbox"  id="confirmSecurityPatch">
+											<label id="checkList3" class="form-check-label" for="confirmSecurityPatch">3.Confirm whether windows or application security patch is updated or not</label>
+										</div>
+									</div>
+									<div class="col-md-1"><span class="important check4">*</span></div>
+									<div class="col-md-11">
+										<div class="form-check">
+											<input class="form-check-input" type="checkbox"  id="confirmAntivirusSoftware">
+											<label id="checkList4" class="form-check-label" for="confirmAntivirusSoftware">4.Confirm whether antivirus software is installed on PC or not</label>
+										</div>
+									</div>
+									<div class="col-md-1"><span class="important check5">*</span></div>
+									<div class="col-md-11">
+										<div class="form-check">
+											<input class="form-check-input" type="checkbox" id="confirmAntivirusPattern">
+											<label id="checkList5" class="form-check-label" for="confirmAntivirusPattern">5.Confirm whether antivirus pattern file is updated or not</label>
+										</div>
+									</div>
+									<div class="col-md-1"><span class="important check6">*</span></div>
+									<div class="col-md-11">
+										<div class="form-check">
+											<input class="form-check-input" type="checkbox"  id="confirmAntivirusFullScan">
+											<label id="checkList6" class="form-check-label" for="confirmAntivirusFullScan">6.Confirm last antivirus full scan complete date</label>
+										</div>
+									</div>
+									<hr>
+									<div class="col-md-1"><span class="important ciso-check">*</span></div>
+									<div class="col-md-11">
+										<div class="form-check">
+											<input class="form-check-input" type="checkbox" id="listConfirm">
+											<label id="listConfirmLabel" class="form-check-label " for="listConfirm">
+												Have confirmed WFH-PC's requirement evidents according to "CheckList(CISO)"</label>
+										</div>
+									</div>
+									</div>
+									<div class="row mb-3">
+											<div class="col-sm-4">
+												<label for="divisionHeadApproveReason" rows="3"><b>CISO Approval on information security</b></label>
+											</div>	
+											<div class="col-sm-8">
+												<textarea class="form-control" id="CISOApproveReason" name="CISOApproveReason" rows="3" placeholder="Approve or Reject Reason" required></textarea>	
+											</div>
+										</div>
+									</div>
+									<div class="row" sec:authorize="hasAnyAuthority('CISO')">
+										<label class="col-sm-9 col-form-label"></label>
+										<div class="col-sm-3">
+											<div class="d-md-flex d-grid align-items-center gap-3">
+												<div class="row row-cols-auto g-3">
+													<div class="col">
+														<button type="button" class="btn btn-success"  onclick="approve('CISO', 'approve')">OK</button>
+													</div>
+													<div class="col">
+														<button type="button" class="btn btn-danger px-4"onclick="approve('CISO', 'reject')">NG</button>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+									<!--CISO  End-->
+									
+									<!--For Service desk Start-->
+									<div sec:authorize="hasAnyAuthority('SERVICE_DESK')">
+										<div class="row mb-3">
+											<div class="col-sm-4">
+												<label for="divisionHeadApproveReason" rows="3"><b>Service Desk Confirmation</b></label>
+											</div>	
+											<div class="col-sm-8">
+												<textarea class="form-control" id="serviceDeskSuggestion" name="serviceDeskSuggestion" rows="3" placeholder="Suggestion about NG Form" ></textarea>
+											</div>
+										</div>
+										<hr>
+									</div>
+									
+									<!--Project Manager Approve Section-->
+									<div class="row" sec:authorize="hasAnyAuthority('SERVICE_DESK')">
+										<div class="col-sm-6"></div>
+										<div class="col-sm-6">
+											<div class="d-md-flex d-grid align-items-center gap-3">
+												<div class="row row-cols-auto g-3">
+													<div class="col">
+   														<button type="button" id="serviceDeskButton" onclick="approve('SERVICE_DESK', 'inform')" class="btn btn-success">Notice To Applicant</button>
+														<a th:href="@{/approved/forms}"><button type="button" class="btn btn-danger px-4" >Cancel</button></a>
+													</div>
+													
+												</div>
+												
+											</div>
+										</div>
+										</div>
+									<br>
+									<!--Service desk  End-->
+									
+									<!--CEO Start-->
+									<div sec:authorize="hasAnyAuthority('CEO')">
+										<div class="row mb-3">
+											<div class="col-sm-4">
+												<label for="CEOApproveReason" rows="3"><b>Final Approve By CEO</b></label>
+											</div>	
+											<div class="col-sm-8">
+												<textarea class="form-control" id="CEOApproveReason" name="CEOApproveReason" rows="3" placeholder="Approve Reason(Optional)"></textarea>
+											</div>
+										</div>
+										<hr>
+									</div>
+									<div class="row" sec:authorize="hasAnyAuthority('CEO')">
+										<div class="col-sm-8"></div>
+										<div class="col-sm-4">
+											<div class="d-md-flex d-grid align-items-center gap-3">
+												<div class="row row-cols-auto g-3">
+													<div class="col">
+														<button type="button" id="CEOApproveButton" onclick="approve('CEO', 'approve')"
+															class="btn btn-success">Approve</button>
+													</div>
+													<div class="col">
+														<button type="button" class="btn btn-danger px-4" onclick="approve('CEO', 'reject')">Reject</button>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div><br>
+									<!--CEO End-->
+							</form>
+					   </div>
+				    </div>
+					</div>
+				</div>
+			</div>	
+		</div>
+		
+		
+		<!-- Capture Modal Group Start-->
+		<!-- Modal -->
+		<div class="modal fade" id="osTypeModal" tabindex="-1" aria-hidden="true">
+			<div class="modal-dialog modal-fullscreen">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h5 class="modal-title"  th:if="${form.capture.osType == 'window'}">Type of Operating System(Window)</h5>
+						<h5 class="modal-title"  th:if="${form.capture.osType == 'mac'}">Type of Operating System(Mac)</h5>
+						<h5 class="modal-title"  th:if="${form.capture.osType == 'linux'}">Type of Operating System(Linux)</h5>
+						<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+					</div>
+					<div class="modal-body">
+						<img th:src="@{'/images/' + ${form.capture.osTypeImg}}" class="card-img-top modal-image" alt="...">
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-primary" data-bs-dismiss="modal">Close</button>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="modal fade" id="securityPatchUpdateModal" tabindex="-1" aria-hidden="true">
+			<div class="modal-dialog modal-fullscreen">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h5 class="modal-title" th:if="${form.capture.osType == 'window'}">Windows update security patch update status Capture</h5>
+						<h5 class="modal-title" th:if="${form.capture.osType == 'mac'}">MAC OS security patch update status</h5>
+						<h5 class="modal-title" th:if="${form.capture.osType == 'linux'}">Linux security patch is updated to latest version</h5>
+						<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+					</div>
+					<div class="modal-body">
+						<img th:src="@{'/images/' + ${form.capture.securityPatchUpdateImg}}" class="card-img-top modal-image" alt="...">
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-primary" data-bs-dismiss="modal">Close</button>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="modal fade" id="antivirusSoftwareImgModal" tabindex="-1" aria-hidden="true">
+			<div class="modal-dialog modal-fullscreen">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h5 class="modal-title" th:if="${form.capture.osType == 'window'}" >Antivirus software Capture(Window)</h5>
+						<h5 class="modal-title" th:if="${form.capture.osType == 'mac'}" >Antivirus software Capture(Mac)</h5>
+						<h5 class="modal-title" th:if="${form.capture.osType == 'linux'}" >Antivirus software Capture(Linux)</h5>
+						<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+					</div>
+					<div class="modal-body">
+						<img th:src="@{'/images/' + ${form.capture.antivirusSoftwareImg}}" class="card-img-top modal-image" alt="...">
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-primary" data-bs-dismiss="modal">Close</button>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="modal fade" id="antivirusPatternUpdatedImgModal" tabindex="-1" aria-hidden="true">
+			<div class="modal-dialog modal-fullscreen">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h5 class="modal-title">Antivirus pattern file update status Capture(Window)</h5>
+						<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+					</div>
+					<div class="modal-body">
+						<img th:src="@{'/images/' + ${form.capture.antivirusPatternUpdatedImg}}" class="card-img-top modal-image" alt="...">
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-primary" data-bs-dismiss="modal">Close</button>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="modal fade" id="antivirusFullScanImgModal" tabindex="-1" aria-hidden="true">
+			<div class="modal-dialog modal-fullscreen">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h5 class="modal-title">Antivirus pattern file update status Capture(Window)</h5>
+						<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+					</div>
+					<div class="modal-body">
+						<img th:src="@{'/images/' + ${form.capture.antivirusFullScanImg}}" class="card-img-top modal-image" alt="...">
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-primary" data-bs-dismiss="modal">Close</button>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!-- Capture Modal Group End-->
+		<!--Actual Processing Section Eend-->
+
+
+		<!--start overlay-->
+		<div class="overlay toggle-icon"></div>
+		<!--end overlay-->
+		<!--Start Back To Top Button--> <a href="javaScript:;" class="back-to-top"><i
+				class='bx bxs-up-arrow-alt'></i></a>
+		<!--End Back To Top Button-->
+		<footer class="page-footer">
+			<p class="mb-0">Copyright © 2023. All right reserved.</p>
+		</footer>
+	<!--end wrapper-->
+	<!-- Bootstrap JS -->
+	<script src="/assets/js/bootstrap.bundle.min.js"></script>
+	<!--plugins-->
+	<script src="/assets/js/jquery.min.js"></script>
+	<script src="/assets/plugins/simplebar/js/simplebar.min.js"></script>
+	<script src="/assets/plugins/metismenu/js/metisMenu.min.js"></script>
+	<script src="/assets/plugins/perfect-scrollbar/js/perfect-scrollbar.js"></script>
+	<script src="/assets/plugins/bs-stepper/js/bs-stepper.min.js"></script>
+	<script src="/assets/plugins/bs-stepper/js/main.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+	<script src="/assets/js/modify-form.js"></script>
+	<script src="/assets/js/app.js"></script>
+	<script src="/assets/js/form-approve.js"></script>
+</body>
+</html>

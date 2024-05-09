@@ -1,0 +1,328 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!--favicon-->
+    <link rel="icon" href="assets/images/DAT Logo.png" type="image/png" />
+    <!--plugins-->
+    <link href="assets/plugins/vectormap/jquery-jvectormap-2.0.2.css" rel="stylesheet" />
+    <link href="assets/plugins/simplebar/css/simplebar.css" rel="stylesheet" />
+    <link href="assets/plugins/perfect-scrollbar/css/perfect-scrollbar.css" rel="stylesheet" />
+    <link href="assets/plugins/metismenu/css/metisMenu.min.css" rel="stylesheet" />
+    <!-- Bootstrap CSS -->
+    <link href="assets/css/bootstrap.min.css" rel="stylesheet">
+    <link href="assets/css/bootstrap-extended.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&display=swap" rel="stylesheet">
+    <link href="assets/css/app.css" rel="stylesheet">
+    <link href="assets/css/icons.css" rel="stylesheet">
+    <!-- Theme Style CSS -->
+    <link rel="stylesheet" href="assets/css/dark-theme.css" />
+    <link rel="stylesheet" href="assets/css/semi-dark.css" />
+    <link rel="stylesheet" href="assets/css/header-colors.css" />
+    <link href='https://unpkg.com/boxicons@2.1.1/css/boxicons.min.css' rel='stylesheet'>
+    <link rel="stylesheet" href="assets/css/style.css">
+    <link rel="stylesheet" href="assets/css/progress.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+
+    <title>Applicant Home</title>
+    <style>
+		* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+.main {
+    width: 100%;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+ul {
+    display: flex;
+}
+
+ul li {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin: 0 40px;
+}
+
+ul li .icons {
+    font-size: 25px;
+    color: #000000;
+    margin: 0 60px;
+}
+
+ul li .label {
+    font-family: sans-serif;
+    letter-spacing: 1px;
+    font-size: 14px;
+    font-weight: bold;
+    color: #000000;
+}
+
+ul li .step {
+    height: 30px;
+    width: 30px;
+    border-radius: 50%;
+    background-color: #fff;
+    margin: 16px 0 10px;
+    display: grid;
+    place-items: center;
+    color: #fff;
+    position: relative;
+    cursor: pointer;
+}
+
+.step::after {
+    content: "";
+    position: absolute;
+    width: 197px;
+    height: 3px;
+    background-color: #fff;
+    right: 30px;
+}
+
+.first::after {
+    width: 0;
+    height: 0;
+}
+
+ul li .step .awesome {
+    display: none;
+}
+
+ul li .step p {
+    font-size: 18px;
+}
+
+ul li .active {
+    background-color: #000000;
+}
+
+li .active::after {
+    background-color: #000000;
+
+}
+
+ul li .active p {
+    display: none;
+}
+
+ul li .active .awesome {
+    display: flex;
+}
+	</style>
+</head>
+
+<body>
+    <!--wrapper-->
+    <div class="wrapper">
+        <!--sidebar wrapper -->
+        
+        <!--end sidebar wrapper -->
+        <!--start header -->
+        <header>
+            <div class="topbar d-flex align-items-center">
+                <nav class="navbar navbar-expand gap-3">
+                    <div class="mobile-toggle-menu"><i class='bx bx-menu'></i></div>
+                    <div class="top-menu ms-auto">
+                        <ul class="navbar-nav align-items-center gap-1">
+                            <li class="nav-item dark-mode d-none d-sm-flex">
+                                <a class="nav-link dark-mode-icon" href="javascript:;"><i class='bx bx-moon'></i>
+                                </a>
+                            </li>
+                            <li class="nav-item dropdown dropdown-app">
+                                <div class="dropdown-menu dropdown-menu-end p-0">
+                                    <div class="app-container p-2 my-2"></div>
+                                </div>
+                            </li>
+                            <li class="nav-item dropdown dropdown-large">
+                                <a class="nav-link dropdown-toggle dropdown-toggle-nocaret position-relative" href="#"
+                                    data-bs-toggle="dropdown"><span class="alert-count">1</span>
+                                    <i class='bx bx-bell'></i>
+                                </a>
+                                <div class="dropdown-menu dropdown-menu-end">
+                                    <a href="javascript:;">
+                                        <div class="msg-header">
+                                            <p class="msg-header-title">Notifications</p>
+                                            <p class="msg-header-badge">1 New</p>
+                                        </div>
+                                    </a>
+                                    <div class="header-notifications-list">
+                                        <a class="dropdown-item" href="javascript:;">
+                                            <div class="d-flex align-items-center">
+                                                <div class="user-online">
+                                                    <img src="assets/images/DAT Logo.png" class="msg-avatar"
+                                                        alt="user avatar">
+                                                </div>
+                                                <div class="flex-grow-1">
+                                                    <h6 class="msg-name">Daisy Anderson<span
+                                                            class="msg-time float-end">5 sec
+                                                            ago</span></h6>
+                                                    <p class="msg-info">The standard chunk of lorem</p>
+                                                </div>
+                                            </div>
+                                        </a>
+                                    </div>
+                                    <a href="javascript:;">
+                                        <div class="text-center msg-footer">
+                                            <button class="btn btn-primary w-100">View All Notifications</button>
+                                        </div>
+                                    </a>
+                                </div>
+                            </li>
+                            <li class="nav-item dropdown dropdown-large">
+                                <div class="dropdown-menu dropdown-menu-end">
+                                    <div class="header-message-list"></div>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="user-box dropdown px-3">
+                        <a class="d-flex align-items-center nav-link dropdown-toggle gap-3 dropdown-toggle-nocaret"
+                            href="profile.html" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            <img src="assets/images/DAT Logo.png" alt="user avatar" width="30" height="30">
+                            <div class="user-info">
+                                <p class="user-name mb-0">Kyaw Kyaw</p>
+                                <p class="designattion mb-0">Applicant</p>
+                            </div>
+                        </a>
+                    </div>
+                </nav>
+            </div>
+        </header>
+        <!--end header -->
+        <!--start page wrapper -->
+        <div class="main">
+        
+            <ul>
+                <li>
+                    <i class="icons awesome fa-solid fa-user"></i>
+                    <div class="step first">
+                        <p>1</p>
+                        <i class="awesome fa-solid fa-check"></i>
+                    </div>
+                    <p class="label">Profile</p>
+                </li>
+                <li>
+                    <i class="icons awesome fa-solid fa-coins"></i>
+                    <div class="step second">
+                        <p>2</p>
+                        <i class="awesome fa-solid fa-check"></i>
+                    </div>
+                    <p class="label">Finances</p>
+                </li>
+                <li>
+                    <i class="icons awesome fa-solid fa-house"></i>
+                    <div class="step third">
+                        <p>3</p>
+                        <i class="awesome fa-solid fa-check"></i>
+                    </div>
+                    <p class="label">Property</p>
+                </li>
+                <li>
+                    <i class="icons awesome fa-regular fa-star-half-stroke"></i>
+                    <div class="step fourth">
+                        <p>4</p>
+                        <i class="awesome fa-solid fa-check"></i>
+                    </div>
+                    <p class="label">Evaluation</p>
+                </li>
+                <li>
+                    <i class="icons awesome fa-solid fa-thumbs-up"></i>
+                    <div class="step fifth">
+                        <p>5</p>
+                        <i class="awesome fa-solid fa- "></i>
+                    </div>
+                    <p class="label">Approval</p>
+                </li>
+            </ul>
+        </div>
+        <!--end page wrapper -->
+        <!--start overlay-->
+        <div class="overlay toggle-icon"></div>
+        <!--end overlay-->
+        <!--Start Back To Top Button-->
+        <a href="javaScript:;" class="back-to-top"><i class='bx bxs-up-arrow-alt'></i></a>
+        <!--End Back To Top Button-->
+        <footer class="page-footer">
+            <p class="mb-0">Copyright © 2022. All right reserved.</p>
+        </footer>
+    </div>
+    <!--end wrapper-->
+
+    <!-- Bootstrap JS -->
+    <script src="assets/js/bootstrap.bundle.min.js"></script>
+    <!--plugins-->
+    <script src="assets/js/jquery.min.js"></script>
+    <script src="assets/plugins/simplebar/js/simplebar.min.js"></script>
+    <script src="assets/plugins/metismenu/js/metisMenu.min.js"></script>
+    <script src="assets/plugins/perfect-scrollbar/js/perfect-scrollbar.js"></script>
+    <script src="assets/plugins/vectormap/jquery-jvectormap-2.0.2.min.js"></script>
+    <script src="assets/plugins/vectormap/jquery-jvectormap-world-mill-en.js"></script>
+    <script src="assets/plugins/chartjs/js/chart.js"></script>
+    <script src="assets/js/index.js"></script>
+    <!--app JS-->
+    <script src="assets/js/app.js"></script>
+    <script>
+        new PerfectScrollbar(".app-container")
+    </script>
+    <script>
+        const body = document.querySelector('body'),
+            sidebar = body.querySelector('nav'),
+            toggle = body.querySelector(".toggle"),
+            searchBtn = body.querySelector(".search-box"),
+            modeSwitch = body.querySelector(".toggle-switch"),
+            modeText = body.querySelector(".mode-text");
+
+
+        toggle.addEventListener("click", () => {
+            sidebar.classList.toggle("close");
+        })
+
+        searchBtn.addEventListener("click", () => {
+            sidebar.classList.remove("close");
+
+        });
+    </script>
+
+    <script>
+        const first = document.querySelector(".first");
+            const second = document.querySelector(".second");
+            const third = document.querySelector(".third");
+            const fourth = document.querySelector(".fourth");
+            const fifth = document.querySelector(".fifth");
+            const steps = [first, second, third, fourth, fifth];
+
+            function nextStep(currentStep) {
+                steps.forEach(step => step.classList.remove("active"));
+                
+                steps.forEach((step, index) => {
+                    if (index <= currentStep) {
+                        step.classList.add("active");
+                    } else {
+                        step.classList.remove("active");
+                    }
+                });
+            }
+
+            steps.forEach((step, index) => {
+                step.addEventListener("click", () => {
+                    nextStep(index);
+                });
+            });
+    </script>
+</body>
+
+</html>

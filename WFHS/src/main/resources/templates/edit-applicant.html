@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+	   xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head th:replace="layout/header :: header-link">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+</head>
+<body>
+    <div class="wrapper">
+        <div th:fragment="sidebar" th:replace="layout/body :: sidebar" ></div><!--sidebar -->
+        <header th:replace="layout/body :: header"></header> <!-- header -->
+        
+        <!--Actual Processing Section Start-->
+           <div class="page-wrapper">
+           <div class="page-content">
+                <!--breadcrumb-->
+                <div class="page-breadcrumb d-none d-sm-flex align-items-center mb-3">
+                    <div class="breadcrumb-title pe-3">WFHS</div>
+                    <div class="ps-3">
+                        <nav aria-label="breadcrumb">
+                            <ol class="breadcrumb mb-0 p-0">
+                                <li class="breadcrumb-item"><a href="javascript:;"><i class="bx bx-home-alt"></i></a>
+                                </li>
+                                <li class="breadcrumb-item active" aria-current="page">Edit Applicant Information</li>
+                            </ol>
+                        </nav>
+                    </div>
+                </div>
+                <!--end breadcrumb-->
+                <div class="row">
+                    <div class="col-lg-8 mx-auto">
+                        <div class="card">
+                        	<div th:if="${success}" class="alert alert-success border-0 bg-success alert-dismissible fade show py-2">
+							    <div class="d-flex align-items-center">				
+							        <div class="font-35 text-white"><i class='bx bxs-check-circle'></i>					
+							        </div>					
+							        <div class="ms-3">					
+							            <h6 class="mb-0 text-white">Success</h6>					
+							            <div class="text-white">The process has been successful!</div>					
+							        </div>					
+							    </div>					
+							    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>					
+							</div>
+							<div th:if="${error}" class="alert alert-warning border-0 bg-warning alert-dismissible fade show py-2">
+							    <div class="d-flex align-items-center">					
+							        <div class="font-35 text-dark"><i class='bx bx-info-circle'></i>					
+							        </div>					
+							        <div class="ms-3">					
+							            <h6 class="mb-0 text-dark">Need Data</h6>					
+							            <div class="text-dark">After you add the data, you can submit.</div>					
+							        </div>					
+							    </div>					
+							    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>					
+							</div>
+                            <div class="card-body p-4">
+                            	<form th:action="@{/edit-applicant}" method="post" th:object="${userDto}">
+                                <h5 class="mb-4">Edit Applicant Information</h5>
+                                <div class="row mb-3">
+	                                <label for="staffId" class="col-sm-3 col-form-label">Staff ID</label>
+	                                <div class="col-sm-9">
+	                                    <select class="form-select" id="staffIdAutoFill" th:field="${userDto.staffId}">
+	                                    	<option value="">----- Select Staff Id -----</option>
+	                                        <option th:each="user : ${userList}" th:value="${user.staffId}" th:text="${user.name + ' (' + user.staffId + ')'}">
+											</option>
+	                                  	</select>
+	                                </div>
+	                            </div>
+                                <div class="row mb-3">
+                                    <label for="staffName" class="col-sm-3 col-form-label">Name</label>
+                                    <div class="col-sm-9">
+                                        <input type="text" class="form-control" id="staffName" readonly>
+                                    </div>
+                                </div>
+                                <div class="row mb-3">
+                                    <label for="division" class="col-sm-3 col-form-label">Current Division</label>
+                                    <div class="col-sm-9">
+                                        <input type="text" class="form-control" id="division" readonly>
+                                    </div>
+                                </div>
+                                <div class="row mb-3">
+                                    <label for="department" class="col-sm-3 col-form-label">Current Department</label>
+                                    <div class="col-sm-9">
+                                        <input type="text" class="form-control" id="department" readonly>
+                                    </div>
+                                </div>
+                                <div class="row mb-3">
+                                    <label for="team" class="col-sm-3 col-form-label">Current Team</label>
+                                    <div class="col-sm-9">
+                                        <input type="text" class="form-control" id="team" readonly>
+                                    </div>
+                                </div>
+                                <div class="row mb-3">
+                                    <label for="position" class="col-sm-3 col-form-label">Current Position</label>
+                                    <div class="col-sm-9">
+                                        <input type="text" class="form-control" id="position" readonly>
+                                    </div>
+                                </div>
+                                <div class="row mb-3">
+	                                <label for="input42" class="col-sm-3 col-form-label">Division</label>
+	                                <div class="col-sm-9">
+	                                    <select class="form-select" id="divisionSelectApplicant" th:field="${userDto.divisionName}">
+	                                    	<option value="">----- Select Division -----</option>
+	                                        <option th:each="division : ${divisionList}" th:value="${division.name}" th:text="${division.name}">
+											</option>
+	                                  	</select>
+	                                </div>
+	                            </div>
+                                <div class="row mb-3">
+	                                <label for="input42" class="col-sm-3 col-form-label">Department</label>
+	                                <div class="col-sm-9">
+	                                    <select class="form-select" id="departmentSelectApplicant" th:field="${userDto.departmentName}">
+	                                    	<option value="">----- Select Department -----</option>
+	                                        <!-- option th:each="department : ${departmentList}" th:value="${department.id}" th:text="${department.name}">
+											</option -->
+	                                  	</select>
+	                                </div>
+	                            </div>
+                                <div class="row mb-3">
+	                                <label for="input42" class="col-sm-3 col-form-label">Team</label>
+	                                <div class="col-sm-9">
+	                                    <select class="form-select" id="teamSelectApplicant" th:field="${userDto.teamName}">
+	                                    	<option value="">----- Select Team -----</option>
+	                                        <!-- option th:each="team : ${teamList}" th:value="${team.id}" th:text="${team.name}">
+											</option -->
+	                                  	</select>
+	                                </div>
+	                            </div>
+                                <div class="row">
+                                    <label class="col-sm-3 col-form-label"></label>
+                                    <div class="col-sm-9">
+                                        <div class="d-md-flex d-grid align-items-center gap-3">
+                                            <button type="submit" class="btn btn-primary px-4">Save</button>
+                                            <a th:href="@{/edit}" class="btn btn-light px-4">Reset</a>
+                                        </div>
+                                    </div>
+                                </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div><!--end row-->
+            </div><!--end row-->
+        </div>
+        <!--Actual Processing Section Start-->
+   <script>
+         $(".datepicker").flatpickr();
+ 
+         $(".time-picker").flatpickr({
+             enableTime: true,
+             noCalendar: true,
+             dateFormat: "Y-m-d H:i",
+         });
+ 
+         $(".date-time").flatpickr({
+             enableTime: true,
+             dateFormat: "Y-m-d H:i",
+         });
+ 
+         $(".date-format").flatpickr({
+             altInput: true,
+             altFormat: "F j, Y",
+             dateFormat: "Y-m-d",
+         });
+ 
+         $(".date-range").flatpickr({
+             mode: "range",
+             altInput: true,
+             altFormat: "F j, Y",
+             dateFormat: "Y-m-d",
+         });
+ 
+         $(".date-inline").flatpickr({
+             inline: true,
+             altInput: true,
+             altFormat: "F j, Y",
+             dateFormat: "Y-m-d",
+         });
+     </script>
+<div th:include="layout/footer"></div>

@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="layout/header :: header-link"></head>
+<body>
+    <div class="wrapper">
+        <div th:fragment="sidebar" th:replace="layout/body :: sidebar" ></div><!--sidebar -->
+        <header th:replace="layout/body :: header"></header> <!-- header -->
+        
+        <!--Actual Processing Section Start-->
+        <div class="page-wrapper">
+			<div class="page-content">
+				<!--breadcrumb-->
+                <div class="page-breadcrumb d-none d-sm-flex align-items-center mb-3">
+					<div class="breadcrumb-title pe-3">WFHS</div>
+					<div class="ps-3">
+						<nav aria-label="breadcrumb">
+							<ol class="breadcrumb mb-0 p-0">
+								<li class="breadcrumb-item"><a href="javascript:;"><i class="bx bx-home-alt"></i></a>
+								</li>
+								<li class="breadcrumb-item active" aria-current="page">Applied Form List</li>
+							</ol>
+						</nav>
+					</div>
+                </div>
+				<!--end breadcrumb-->
+
+                <div class="card">
+					<div class="card-body">
+						<div class="table-responsive">
+							
+                            <div style="margin-bottom:10px;">
+								
+                                    <!-- Button trigger modal -->
+                                    <button sec:authorize="hasAnyAuthority('CEO')" type="button" class="btn btn-success btn-sm radius-20 px-4" data-bs-toggle="modal"  data-bs-target="#approveModal" >Approve</button>
+                                    <!-- Modal -->
+                                    <div sec:authorize="hasAnyAuthority('CEO')" class="modal fade" id="approveModal" tabindex="-1" aria-labelledby="approveModalLabel" aria-hidden="true">
+                                        <div class="modal-dialog">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h5 class="modal-title" id="exampleModalLabel">Approve Reason</h5>
+                                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                </div>
+                                                <div class="modal-body">
+                                                    <label for="InputStaffID" class="col-sm-3 col-form-label">Approve Reason</label>
+                                                        <textarea class="form-control" id="approveReason" name="approveReason" rows="1"></textarea>
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                                    <button type="button" class="btn btn-success" onclick="batchApprove('approve')" >Approve</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
+                                    <!-- Button trigger modal -->
+                                    <button sec:authorize="hasAnyAuthority('CEO')" type="button" class="btn btn-danger btn-sm radius-20 px-4" data-bs-toggle="modal" data-bs-target="#rejectModal">Reject</button>
+                                    <!-- Modal -->
+                                    <div sec:authorize="hasAnyAuthority('CEO')" class="modal fade" id="rejectModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                        <div class="modal-dialog">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h5 class="modal-title" id="exampleModalLabel">Reject Reason</h5>
+                                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                </div>
+                                                <div class="modal-body">
+                                                    <label for="InputStaffID" class="col-sm-3 col-form-label">Reject Reason</label>
+                                                        <textarea class="form-control" id="rejectReason" name="rejectReason" rows="1"></textarea>
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                                    <button type="button" class="btn btn-danger" onclick="batchApprove('reject')">Reject</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                     <div class="row mb-3" sec:authorize="hasAnyAuthority('CEO','CISO')">
+										<div class="col-md-3">
+											<select class="form-select" id="divisionFilter1">
+		                                		<option value="">----- Select Division -----</option>
+		                                		<option th:each="division : ${divisionList}" th:value="${division.name}" th:text="${division.name}">
+												</option>
+		                                	</select>
+										</div>
+								        <div class="col-md-3">
+								            <select class="form-select" id="departmentFilter1">
+		                                		<option value="">----- Select Department -----</option>
+		                                	</select>
+								        </div>
+								        <div class="col-md-3">
+								            <select class="form-select" id="teamFilter1">
+		                                		<option value="">----- Select Team -----</option>
+		                                	</select>
+								        </div>
+								  </div> 
+                            </div>
+                           
+							<table class="table mb-0">
+								<thead class="table-light">
+									<tr>
+                                        <th sec:authorize="hasAnyAuthority('CEO')"> 
+											<input id="selectAll" class="form-check-input me-3" type="checkbox" onclick="toggleCheckboxes(this)">
+										</th>
+										<th>No</th>
+										<th>Staff ID</th>
+										<th>Name</th>
+										<th>Working Place</th>
+                                        <th sec:authorize="hasAnyAuthority('DEPARTMENT_HEAD','CEO','CISO')">Team</th>
+                                        <th sec:authorize="hasAnyAuthority('DIVISION_HEAD','CEO','CISO')">Department</th>
+                                        <th sec:authorize="hasAnyAuthority('CEO','CISO')">Division</th>
+                                        <th>Date</th>
+                                        <th>Remark</th>
+										<th>View Details</th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr th:each="operation,increator: ${operations}">
+                                        <td sec:authorize="hasAnyAuthority('CEO')"><div>
+                                      		<input class="form-check-input me-3 rowCheckbox" type="checkbox"  th:value="${operation.id}">
+                                       </div></td>
+										<td><div class="d-flex align-items-center">
+												<div class="ms-2">
+													<h6 class="mb-0 font-14" th:text="${increator.index + 1}"></h6>
+												</div>
+										</div></td>
+										<td th:text="${operation.user.staffId}"></td>
+										<td th:text="${operation.user.name}"></td>
+										<td th:text="${operation.applicantForm.workingPlace}"></td>
+                                        <td th:text="${operation.user.teamName}" sec:authorize="hasAnyAuthority('DEPARTMENT_HEAD','CEO','CISO')"></td>
+                                        <td th:text="${operation.user.departmentName}" sec:authorize="hasAnyAuthority('DIVISION_HEAD','CEO','CISO')">Off-Shore1</td>
+                                        <td th:text="${operation.user.divisionName}" sec:authorize="hasAnyAuthority('CEO','CISO')"></td>
+										<td th:text="${operation.issueDate}"></td>
+										<td th:text="${operation.user.staffId == operation.applicantForm.applierStaffId ? 'Applied by himself' : 'Applied by Team Mate (' + operation.applicantForm.applierStaffId + ')'}"></td>
+									<td><a th:href="@{/approved/{id}(id=${operation.id})}"><button class="btn btn-primary btn-sm radius-30 px-4">View Details</button></a></td>
+									</tr>                                   
+								</tbody>
+								<div id="selectedIDs"></div>
+							</table>
+						</div>
+					</div>
+				</div>
+            </div>
+        </div>
+        <!--Actual Processing Section End-->
+ <script src="/assets/js/applied-form-list.js"></script>
+ <script src="/assets/js/appliedFormFilter.js"></script>
+<div th:include="layout/footer"></div>

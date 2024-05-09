@@ -1,0 +1,470 @@
+ <html lang="en" xmlns:th="http://www.thymeleaf.org"
+	   xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+  <body>
+  <!--wrapper-->
+    <div class="wrapper" th:fragment="body">
+        <!--sidebar wrapper -->
+        <div class="sidebar-wrapper" data-simplebar="true" th:fragment="sidebar" >
+            <div class="sidebar-header">
+                <div>
+                    <img src="assets/images/DAT Logo.png" class="logo-icon" alt="logo icon">
+                </div>
+                <div>
+                    <h4 class="logo-text">WFHS</h4>
+                </div>
+                <div class="toggle-icon ms-auto"><i class='bx bx-arrow-back'></i>
+                </div>
+            </div>
+            <!--navigation-->
+            <ul class="metismenu" id="menu">
+                <li sec:authorize="hasAnyAuthority('APPLICANT','PROJECT_MANAGER','DEPARTMENT_HEAD','DIVISION_HEAD','HR','CISO','CEO','SERVICE_DESK')">
+                    <a th:href="@{/users}">
+                        <div class="parent-icon"><i class='bx bx-home-alt'></i>
+                        </div>
+                        <div class="menu-title">Dashboard</div>
+                    </a>
+                </li>
+                <!--If Approvers-->
+                <li sec:authorize="hasAnyAuthority('PROJECT_MANAGER','DEPARTMENT_HEAD','DIVISION_HEAD','CISO','CEO','SERVICE_DESK')">
+					<a  th:href="@{/approved/forms}">
+                        <div class="parent-icon"><i class="fadeIn animated bx bx-message-square-check"></i>
+                        </div>
+                        <div class="menu-title">Form Approval</div>
+                    </a>
+                </li>
+                <!--Approvers End-->
+                <li sec:authorize="hasAnyAuthority('APPLICANT','PROJECT_MANAGER','DEPARTMENT_HEAD','DIVISION_HEAD','CISO','CEO','HR','SERVICE_DESK')">
+                    <a  th:href="@{'/applied/forms/0'}">
+                        <div class="parent-icon"><i class='bx bx-message-square-edit'></i>
+                        </div>
+                        <div class="menu-title">Applied Form</div>
+                    </a>
+                </li>
+                <!--If HR-->
+                <li sec:authorize="hasAuthority('HR')">
+                    <a  th:href="@{/ledgers}">
+                        <div class="parent-icon"><i class="fadeIn animated bx bx-notepad"></i>
+                        </div>
+                        <div class="menu-title">Ledger</div>
+                    </a>
+                </li>
+                <li sec:authorize="hasAuthority('HR')">
+					<a href="javascript:;" class="has-arrow">
+						<div class="parent-icon"><i class="fadeIn animated bx bx-spreadsheet"></i>
+						</div>
+						<div class="menu-title">Management</div>
+					</a>
+					<ul>
+						<li> <a th:href="@{/positions}"><i class='bx bx-radio-circle'></i>Position</a>
+						</li>
+						<li> <a th:href="@{/promotions}"><i class='bx bx-radio-circle'></i>Promotion</a>
+						</li>
+					</ul>
+				</li>
+                <li sec:authorize="hasAuthority('HR')">
+					<a href="javascript:;" class="has-arrow">
+						<div class="parent-icon"><i class="fadeIn animated bx bx-user"></i>
+						</div>
+						<div class="menu-title">Applicant</div>
+					</a>
+					<ul>
+						<li> <a th:href="@{/applicants}"><i class='bx bx-radio-circle'></i>Register</a>
+						</li>
+						<li> <a th:href="@{/edit}"><i class='bx bx-radio-circle'></i>Edit</a>
+						</li>
+					</ul>
+				</li>
+                <li sec:authorize="hasAuthority('HR')">
+					<a href="javascript:;" class="has-arrow">
+						<div class="parent-icon"><i class="fadeIn animated bx bx-user"></i>
+						</div>
+						<div class="menu-title">Role</div>
+					</a>
+					<ul>
+						<li> <a th:href="@{/assign-roles}"><i class='bx bx-radio-circle'></i>Assign</a>
+						</li>
+					</ul>
+				</li>
+                <!--HR End-->
+                <li sec:authorize="hasAnyAuthority('APPLICANT','PROJECT_MANAGER','DEPARTMENT_HEAD','DIVISION_HEAD','CISO','CEO','HR','SERVICE_DESK')" >
+                    <a th:href="@{/form-histories}">
+                        <div class="parent-icon"><i class="fadeIn animated bx bx-history"></i>
+                        </div>
+                        <div class="menu-title" >History</div>
+                    </a>
+                </li>
+                <li sec:authorize="hasAnyAuthority('APPLICANT','PROJECT_MANAGER','DEPARTMENT_HEAD','DIVISION_HEAD','CISO','CEO','HR','SERVICE_DESK')">
+                    <a th:href="@{/profile}">
+                        <div class="parent-icon"><i class="bx bx-user-circle"></i>
+                        </div>
+                        <div class="menu-title">User Profile</div>
+                    </a>
+                </li>
+                <li sec:authorize="hasAnyAuthority('APPLICANT','PROJECT_MANAGER','DEPARTMENT_HEAD','DIVISION_HEAD','CISO','CEO','HR','SERVICE_DESK')">
+                    <a th:href="@{/logout}">
+                        <div class="parent-icon"><i class="fadeIn animated bx bx-log-out"></i>
+                        </div>
+                        <div class="menu-title">Log out</div>
+                    </a>
+                </li>
+            </ul>
+            <!--end navigation-->
+        </div>
+        <!--end sidebar wrapper -->
+        
+        
+        <!--start header -->
+        <header th:fragment="header">
+            <div class="topbar d-flex align-items-center">
+                <nav class="navbar navbar-expand gap-3">
+                    <div class="mobile-toggle-menu"><i class='bx bx-menu'></i></div>
+                    <div class="top-menu ms-auto">
+                    </div>
+                      <div class="user-box dropdown px-3" th:object="${userMain}">
+                        <a class="d-flex align-items-center nav-link dropdown-toggle gap-3 dropdown-toggle-nocaret"
+                            href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            <img src="assets/images/DAT Logo.png" alt="user avatar" width="30" height="30">
+                            <div class="user-info">
+                                <p class="user-name mb-0" th:text="${userMain.name}"></p>
+                                <p class="designattion mb-0" th:text="${userMain.roleName}"></p>
+                            </div>
+                        </a>
+                    </div>
+                </nav>
+            </div>
+        </header>
+        <!--end header -->
+        <!--start page wrapper -->
+        <div class="page-wrapper" th:fragment="data-dashboard">
+            <div class="page-content">
+				<div class="card-body">	
+								
+								<div class="alert alert-info border-0 bg-info alert-dismissible fade show py-2"th:if="${pendingForm.id != 0 and NGForm.id == 0}">
+									<div class="d-flex align-items-center">
+										<div class="font-35 text-dark"><i class='bx bx-info-square'></i>
+										</div>
+										<div class="ms-3">
+											<h6 class="mb-0 text-dark">Info Alerts</h6>
+											<div class="text-dark">You have already applied WFH Form For This Month and Your form is in progress status.</div>
+										</div>
+									</div>
+									<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+								</div>
+
+								<div class="alert alert-success border-0 bg-success alert-dismissible fade show py-2" th:if="${completeForm.id != 0}">
+										<div class="d-flex align-items-center">
+											<div class="font-35 text-white"><i class='bx bxs-check-circle'></i>
+											</div>
+											<div class="ms-3">
+												<h6 class="mb-0 text-white">Success Alerts</h6>
+												<div class="text-white">Your form have already approved for this month</div>
+											</div>
+										</div>
+										<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+								</div>
+									
+								<div class="alert alert-warning border-0 bg-warning alert-dismissible fade show py-2" th:if="${completeForm.id == 0 and pendingForm.id == 0}">
+										<div class="d-flex align-items-center">
+											<div class="font-35 text-white"><i class='bx bxs-check-circle'></i>
+											</div>
+											<div class="ms-3">
+												<h6 class="mb-0 text-white">Warning Alerts</h6>
+												<div class="text-white">Your don't apply form for this month, click now <span style="color:white;" >Apply Now </span></div>
+											</div>
+										</div>
+										<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+								</div>
+								
+								<div class="alert alert-warning border-0 bg-warning alert-dismissible fade show py-2" th:if="${NGForm.id != 0}" >
+										<a th:href="@{/applicants/modify/{id}(id=${NGForm.id})}" >
+											<div class="d-flex align-items-center">
+												<div class="font-35 text-dark"><i class='bx bx-info-circle'></i></div>
+												<div class="ms-3">
+													<h6 class="mb-0 text-dark">Warning Alerts</h6>
+													<div class="text-dark">Your Applicant Form was NG by CISO, click to modify!!</div>
+												</div>
+											</div>	
+										</a>
+										<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+								</div>
+								
+								<a th:href="@{'/applied/forms/1'}"  th:if="${pendingForm.id == 0 and completeForm.id == 0}">
+											<button type="button" class="btn btn-outline-dark px-5 radius-30 m-4" aria-label="Close">Apply Now</button>
+								</a>
+									
+								<a th:href="@{'/applied/forms/0'}">
+										<button type="button" class="btn btn-outline-dark px-5 radius-30 m-4" aria-label="Close">Apply For Other</button>
+								</a>
+							</div>
+				<div >
+					<div class="row" th:if="${forms.size() >= 1}" sec:authorize="hasAnyAuthority('HR')">
+						<h6 class="bg-info p-4 radius-30">New Info:CEO approved and Service Desk OTP sent forms are arrived, Click follow button to
+							confirm and download ledger!!</h6>
+					</div>
+					<div class="row row-cols-4 row-cols-md-4 row-cols-xl-4 mb-4" th:if="${forms.size() >= 1}" sec:authorize="hasAnyAuthority('HR')">
+						<div class="col-4" sec:authorize="hasAnyAuthority('HR')">
+							<a th:href="@{/ledgers}">
+								<button type="button" class="btn btn-success px-5 radius-30 m-4">
+									<i class='bx bx-cloud-download px-1'></i>Confirm Ledger
+								</button>
+							</a>
+						</div>
+					</div>
+				</div>
+						<!--Process If user has pending Form  Start-->
+	<div class="page-content" th:if="${pendingForm.id != 0}">
+		<div class="card p-4 bg-white">
+			<h3>Form Approve Progress Status</h3>
+			<div id="stepper" class="bs-stepper">
+				<div class="d-lg-flex flex-lg-row align-items-lg-center justify-content-lg-between" role="tablist">
+					<div class="step active radius-30" data-target="#test-l-1" th:class="${pendingForm.operation[1].status == 1 ? 'bg-success .rounded-0' : 'bg-warning .rounded-0 '}">
+						<div class="step-trigger" role="tab" id="stepper1trigger1" aria-controls="test-l-1" >
+							<div class="bs-stepper-circle1">1</div>
+							<h6>Project Manager</h6>
+						</div>
+					</div>
+					<div class="bs-stepper-line "></div>
+					<div class="step radius-30" data-target="#test-l-2" th:class="${pendingForm.operation[2].status == 1 ? 'bg-success .rounded-0' : 'bg-warning .rounded-0'}">
+						<div class="step-trigger" role="tab" id="stepper1trigger2" aria-controls="test-l-2">
+							<div class="bs-stepper-circle1">2</div>
+							<h6>Department Head (Approve)</h6>
+						</div>
+					</div>
+					<div class="bs-stepper-line"></div>
+					<div class="step radius-30" data-target="#test-l-3" th:class="${pendingForm.operation[3].status == 1 ? 'bg-success .rounded-0' : 'bg-warning .rounded-0 ' }">
+						<div class="step-trigger" role="tab" id="stepper1trigger3" aria-controls="test-l-3">
+							<div class="bs-stepper-circle1">3</div>
+							<h6>Division Head (Approve)</h6>
+						</div>
+					</div>
+					<div class="bs-stepper-line"></div>
+					<div class="step radius-30" data-target="#test-l-4" th:class="${pendingForm.operation[4].status == 1 ? 'bg-success .rounded-0' : 'bg-warning .rounded-0'}">
+						<div class="step-trigger" role="tab" id="stepper1trigger4" aria-controls="test-l-4">
+							<div class="bs-stepper-circle1">4</div>
+							<h6>CISO(Approve)</h6>
+						</div>
+					</div>
+					<div class="bs-stepper-line"></div>
+					<div class="step radius-30" data-target="#test-l-5" th:class="${pendingForm.operation[6].status == 1 ? 'bg-success .rounded-0' : 'bg-warning .rounded-0'} ">
+						<div class="step-trigger" role="tab" id="stepper1trigger5" aria-controls="test-l-5">
+							<div class="bs-stepper-circle1">5</div>
+							<h6>CEO(Approve)</h6>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!--Process If user has pending Form  End-->
+	</div>
+				 <div class="row row-cols-1 row-cols-md-2 row-cols-xl-4">
+                    <div class="col" sec:authorize="hasAnyAuthority('PROJECT_MANAGER','DEPARTMENT_HEAD','DIVISION_HEAD','CISO','CEO','SERVICE_DESK')">
+                        <div class="card radius-10 border-start border-0 border-4 border-danger">
+                            <div class="card-body">
+                                <a th:href="@{/approved/forms}">
+                                    <div class="d-flex align-items-center">
+                                        <div>
+                                            <p class="mb-0 text-secondary">Awaiting Forms</p>
+                                            <h4 class="my-1 text-danger" th:text="${approveForms.size()}"></h4>
+                                            <p class="mb-0 font-13">forms</p>
+                                        </div>
+                                        <div class="widgets-icons-2 rounded-circle bg-gradient-burning text-white ms-auto">
+                                            <i class='bx bx-message-square-edit'></i>
+                                        </div>
+                                    </div>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col" sec:authorize="hasAnyAuthority('SERVICE_DESK')">
+                        <div class="card radius-10 border-start border-0 border-4 border-success">
+                            <div class="card-body">
+								<a th:href="@{/approved/download/staffId-for-otp}">
+                                <div class="d-flex align-items-center">
+                                    <div>
+                                        <p class="mb-0 text-secondary">CEO Approved Forms</p>
+                                        <h4 class="my-1 text-success" th:text="${forms.size()}"></h4>
+                                        <p class="mb-0 font-13">Download for OTP sending</p>
+                                    </div>
+                                    <div
+                                        class="widgets-icons-2 rounded-circle bg-gradient-ohhappiness text-white ms-auto">
+                                        <i class='bx bx-message-square-edit'></i>
+                                    </div>
+                                </div>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                     <div class="col" sec:authorize="hasAnyAuthority('PROJECT_MANAGER')">
+                        <div class="card radius-10 border-start border-0 border-4 border-info">
+                            <div class="card-body">
+                                <a th:href="@{/team-member-list}">
+                                    <div class="d-flex align-items-center">
+                                        <div>
+                                            <p class="mb-0 text-secondary">Total Team Members</p>
+                                            <h4 class="my-1 text-info" th:text="${members}"></h4>
+                                            <p class="mb-0 font-13">Until Now</p>
+                                        </div>
+                                        <div class="widgets-icons-2 rounded-circle bg-gradient-blues text-white ms-auto">
+                                            <i class="fadeIn animated bx bx-group"></i>
+                                        </div>
+                                    </div>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                  <div class="col" sec:authorize="hasAnyAuthority('DEPARTMENT_HEAD','CISO','CEO','HR')">
+                        <div class="card radius-10 border-start border-0 border-4 border-info">
+                            <div class="card-body">
+                                <a th:href="@{/team-list-all}" sec:authorize="hasAnyAuthority('CISO','CEO','HR')">
+                                    <div class="d-flex align-items-center">
+                                        <div>
+                                            <p class="mb-0 text-secondary">Total Teams</p>
+                                            <h4 class="my-1 text-info" th:text="${teams}"></h4>
+                                            <p class="mb-0 font-13">Until Now</p>
+                                        </div>
+                                        <div class="widgets-icons-2 rounded-circle bg-gradient-blues text-white ms-auto">
+                                            <i class='bx bxs-group'></i>
+                                        </div>
+                                    </div>
+                                </a>
+                               
+                                <a th:href="@{/team-list}" sec:authorize="hasAnyAuthority('DEPARTMENT_HEAD')">
+                                    <div class="d-flex align-items-center">
+                                        <div>
+                                            <p class="mb-0 text-secondary">Total Teams</p>
+                                            <h4 class="my-1 text-info" th:text="${totalTeams}"></h4>
+                                            <p class="mb-0 font-13">Until Now</p>
+                                        </div>
+                                        <div class="widgets-icons-2 rounded-circle bg-gradient-blues text-white ms-auto">
+                                            <i class='bx bxs-group'></i>
+                                        </div>
+                                    </div>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col" sec:authorize="hasAnyAuthority('DIVISION_HEAD','CISO','CEO','HR')">
+                        <div class="card radius-10 border-start border-0 border-4 border-info">
+                            <div class="card-body">
+                                <a th:href="@{/department-list-all}" sec:authorize="hasAnyAuthority('CISO','CEO','HR')">
+                                    <div class="d-flex align-items-center">
+                                        <div>
+                                            <p class="mb-0 text-secondary">Total Departments</p>
+                                            <h4 class="my-1 text-info" th:text="${departments}"></h4>
+                                            <p class="mb-0 font-13">Until Now</p>
+                                        </div>
+                                        <div class="widgets-icons-2 rounded-circle bg-gradient-blues text-white ms-auto">
+                                            <i class='bx bxs-group'></i>
+                                        </div>
+                                    </div>
+                                </a>
+                                <a th:href="@{/department-list}" sec:authorize="hasAnyAuthority('DIVISION_HEAD')">
+                                    <div class="d-flex align-items-center">
+                                        <div>
+                                            <p class="mb-0 text-secondary">Total Departments</p>
+                                            <h4 class="my-1 text-info" th:text="${totalDepartments}"></h4>
+                                            <p class="mb-0 font-13">Until Now</p>
+                                        </div>
+                                        <div class="widgets-icons-2 rounded-circle bg-gradient-blues text-white ms-auto">
+                                            <i class='bx bxs-group'></i>
+                                        </div>
+                                    </div>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col" sec:authorize="hasAnyAuthority('CISO','CEO','HR')">
+                        <div class="card radius-10 border-start border-0 border-4 border-info">
+                            <div class="card-body">
+                                <a th:href="@{/division-list}">
+                                    <div class="d-flex align-items-center">
+                                        <div>
+                                            <p class="mb-0 text-secondary">Total Divisions</p>
+                                            <h4 class="my-1 text-info" th:text="${divisions}"></h4>
+                                            <p class="mb-0 font-13">Until Now</p>
+                                        </div>
+                                        <div class="widgets-icons-2 rounded-circle bg-gradient-blues text-white ms-auto">
+                                            <i class='bx bxs-group'></i>
+                                        </div>
+                                    </div>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row" sec:authorize="hasAnyAuthority('CISO','CEO','HR')">
+                    <!-- First Section -->
+                    <div class="col-12 col-lg-9 d-flex">
+                        <div class="card radius-10 w-100">
+                            <div class="card-header">
+                                <div class="d-flex align-items-center">
+                                    <p class="mb-0 text-uppercase">Top 3 most Request Division</p>
+                                </div>
+                            </div>
+                            <div class="card-body">
+                                <div id="chartDivision"></div>
+                            </div>
+                        </div>
+                    </div>
+                
+                    <!-- Second Section -->
+                    <div class="col-12 col-lg-9 d-flex" sec:authorize="hasAnyAuthority('DIVISION_HEAD','CISO','CEO','HR')">
+                        <div class="card radius-10 w-100">
+                            <div class="card-header">
+                                <div class="d-flex align-items-center">
+                                    <p class="mb-0 text-uppercase">Top 3 most Request Department</p>
+                                </div>
+                            </div>
+                            <div class="card-body">
+                                <div id="chartDepartment"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Third Section -->
+                    <div class="col-12 col-lg-9 d-flex" sec:authorize="hasAnyAuthority('PROJECT_MANAGER','DIVISION_HEAD','CISO','CEO','HR')">
+                        <div class="card radius-10 w-100">
+                            <div class="card-header">
+                                <div class="d-flex align-items-center">
+                                    <p class="mb-0 text-uppercase">Top 3 most Request Teams</p>
+                                </div>
+                            </div>
+                            <div class="card-body">
+                                <div id="chartTeam"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+               <div sec:authorize="hasAuthority('SERVICE_DESK')">
+               		<div th:if="${message}" class="alert alert-warning border-0 bg-success alert-dismissible fade show py-2">
+						<div class="d-flex align-items-center">					
+							 <div class="font-35 text-white"><i class='bx bxs-check-circle'></i>					
+							 </div>					
+							 <div class="ms-3">					
+							      <h6 class="mb-0 text-dark">Success</h6>					
+							      <div class="text-dark" th:text="${message}"></div>					
+							 </div>					
+						</div>					
+						<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>					
+					</div>
+					<div th:if="${error}" class="alert alert-danger border-0 bg-danger alert-dismissible fade show py-2">
+						<div class="d-flex align-items-center">					
+							 <div class="font-35 text-white"><i class='bx bxs-message-square-x'></i>					
+							 </div>					
+							 <div class="ms-3">					
+							      <h6 class="mb-0 text-white">Error</h6>					
+							      <div class="text-white" th:text="${error}"></div>					
+							 </div>					
+						</div>					
+						<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>					
+					</div>	
+	                <form action="/process" method="post" enctype="multipart/form-data">
+				        <input type="file" name="excelFile" accept=".xls,.xlsx">
+				        <button type="submit" name="action" class="btn btn-primary btn-sm radius-40 px-4" value="upload">Send OTP</button>
+				    </form>
+               </div> 
+                
+            </div>
+        </div>

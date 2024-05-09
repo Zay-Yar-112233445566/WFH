@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="layout/header :: header-link"></head>
+<body>
+    <div class="wrapper">
+        <div th:fragment="sidebar" th:replace="layout/body :: sidebar" ></div><!--sidebar -->
+        <header th:replace="layout/body :: header"></header> <!-- header -->
+        
+        <!--Actual Processing Section Start-->
+        <div class="page-wrapper">
+						<div class="page-content">
+				<!--breadcrumb-->
+				<div class="page-breadcrumb d-none d-sm-flex align-items-center mb-3">
+					<div class="breadcrumb-title pe-3">WFHS</div>
+					<div class="ps-3">
+						<nav aria-label="breadcrumb">
+							<ol class="breadcrumb mb-0 p-0">
+								<li class="breadcrumb-item"><a href="javascript:;"><i class="bx bx-home-alt"></i></a>
+								</li>
+								<li class="breadcrumb-item active" aria-current="page">Applied Form History</li>
+							</ol>
+						</nav>
+					</div>
+				</div>
+				<!--end breadcrumb-->
+				<div class="row" th:if="${ngForms.size() <= 0}" >
+						<h6 class="bg-warning p-4 radius-30">There is no Reject Form</h6>
+				</div>
+		
+            
+	<div class="page-content" th:if="${ngForms.size() >= 1}"  >
+		<div class="card p-4 bg-white">
+			<h3>Form Approve Progress Status</h3>
+			<div id="stepper" class="bs-stepper">
+				<div th:each="ngForm,increator: ${ngForms}" class="d-lg-flex flex-lg-row align-items-lg-center justify-content-lg-between" role="tablist">
+					<h6 class="mb-0 font-14" th:text="${increator.index + 1}"></h6>
+					<div class="step active radius-30" data-target="#test-l-1" th:class="${ngForm.operation[1].status == 1 ? 'bg-success .rounded-0' : 'bg-danger .rounded-0 '}">
+						<div class="step-trigger" role="tab" id="stepper1trigger1" aria-controls="test-l-1" >
+							<div class="bs-stepper-circle1">1</div>
+							<h6>Project Manager</h6>
+						</div>
+					</div>
+					<div class="bs-stepper-line "></div>
+					<div class="step radius-30" data-target="#test-l-2" th:class="${ngForm.operation[2].status == 1 ? 'bg-success .rounded-0' : 'bg-danger .rounded-0 '}">
+						<div class="step-trigger" role="tab" id="stepper1trigger2" aria-controls="test-l-2">
+							<div class="bs-stepper-circle1">2</div>
+							<h6>Department Head (Approve)</h6>
+						</div>
+					</div>
+					<div class="bs-stepper-line"></div>
+					<div class="step radius-30" data-target="#test-l-3" th:class="${ngForm.operation[3].status == 1 ? 'bg-success .rounded-0' : 'bg-danger .rounded-0 '}">
+						<div class="step-trigger" role="tab" id="stepper1trigger3" aria-controls="test-l-3">
+							<div class="bs-stepper-circle1">3</div>
+							<h6>Division Head (Approve)</h6>
+						</div>
+					</div>
+					<div class="bs-stepper-line"></div>
+					<div class="step radius-30" data-target="#test-l-4" th:class="${ngForm.operation[4].status == 1 ? 'bg-success .rounded-0' : 'bg-danger .rounded-0 '}">
+						<div class="step-trigger" role="tab" id="stepper1trigger4" aria-controls="test-l-4">
+							<div class="bs-stepper-circle1">4</div>
+							<h6>CISO(Approve)</h6>
+						</div>
+					</div>
+					<div class="bs-stepper-line"></div>
+					<div class="step radius-30" data-target="#test-l-5" th:class="${ngForm.operation[5].status == 1 ? 'bg-success .rounded-0' : 'bg-danger .rounded-0 '}">
+						<div class="step-trigger" role="tab" id="stepper1trigger5" aria-controls="test-l-5">
+							<div class="bs-stepper-circle1">5</div>
+							<h6>CEO(Approve)</h6>
+						</div>
+					</div>
+				</div><br><br><hr><br><br><br>
+			</div>
+		</div>
+		<!--Process If user has pending Form  End-->
+	</div>
+
+            </div>
+        </div>
+        <!--Actual Processing Section End-->
+<div th:include="layout/footer"></div>

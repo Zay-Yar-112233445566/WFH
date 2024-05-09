@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="layout/header :: header-link(pageTitle='Applicant Home')"></head>
+<body>
+    <div class="wrapper">
+        <div th:fragment="sidebar" th:replace="layout/body :: sidebar" ></div><!--sidebar -->
+        <header th:replace="layout/body :: header"></header> <!-- header -->
+        
+        <!--Actual Processing Section Start-->
+           <div class="page-wrapper">
+			   
+			   <!--Process If user has no pending Form  Start-->
+			   <div class="page-content" >
+				   	<div class="row">
+					<div class="col col-lg-12	 mx-auto">
+						<div class="card bg-transparent shadow-none">
+							<div class="card-body">	
+								
+								<div class="alert alert-info border-0 bg-info alert-dismissible fade show py-2"th:if="${pendingForm.id != 0 and NGForm.id == 0}">
+									<div class="d-flex align-items-center">
+										<div class="font-35 text-dark"><i class='bx bx-info-square'></i>
+										</div>
+										<div class="ms-3">
+											<h6 class="mb-0 text-dark">Info Alerts</h6>
+											<div class="text-dark">You have already applied WFH Form For This Month and Your form is in progress status.</div>
+										</div>
+									</div>
+									<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+								</div>
+
+								<div class="alert alert-success border-0 bg-success alert-dismissible fade show py-2" th:if="${completeForm.id != 0}">
+										<div class="d-flex align-items-center">
+											<div class="font-35 text-white"><i class='bx bxs-check-circle'></i>
+											</div>
+											<div class="ms-3">
+												<h6 class="mb-0 text-white">Success Alerts</h6>
+												<div class="text-white">Your form have already approved for this month</div>
+											</div>
+										</div>
+										<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+								</div>
+									
+								<div class="alert alert-warning border-0 bg-warning alert-dismissible fade show py-2" th:if="${completeForm.id == 0 and pendingForm.id == 0}">
+										<div class="d-flex align-items-center">
+											<div class="font-35 text-white"><i class='bx bxs-check-circle'></i>
+											</div>
+											<div class="ms-3">
+												<h6 class="mb-0 text-white">Warning Alerts</h6>
+												<div class="text-white">Your don't apply form for this month, click now <span style="color:white;" >Apply Now </span></div>
+											</div>
+										</div>
+										<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+								</div>
+								
+								<div class="alert alert-warning border-0 bg-warning alert-dismissible fade show py-2" th:if="${NGForm.id != 0}" >
+										<a th:href="@{/applicants/modify/{id}(id=${NGForm.id})}" >
+											<div class="d-flex align-items-center">
+												<div class="font-35 text-dark"><i class='bx bx-info-circle'></i></div>
+												<div class="ms-3">
+													<h6 class="mb-0 text-dark">Warning Alerts</h6>
+													<div class="text-dark">Your Applicant Form was NG by CISO, click to modify!!</div>
+												</div>
+											</div>	
+										</a>
+										<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+								</div>
+								
+								<a th:href="@{'/applied/forms/1'}"  th:if="${pendingForm.id == 0 and completeForm.id == 0}">
+											<button type="button" class="btn btn-outline-dark px-5 radius-30" aria-label="Close">Apply Now</button>
+								</a>
+									
+								<a th:href="@{'/applied/forms/0'}">
+										<button type="button" class="btn btn-outline-dark px-5 radius-30" aria-label="Close">Apply For Other</button>
+								</a>
+							</div>
+						</div>
+					</div>
+				</div>   
+              </div>
+
+			<!--Process If user has pending Form  Start-->
+	<div class="page-content" th:if="${pendingForm.id != 0}">
+		<div class="card p-4 bg-white">
+			<h3>Form Approve Progress Status</h3>
+			<div id="stepper" class="bs-stepper">
+				<div class="d-lg-flex flex-lg-row align-items-lg-center justify-content-lg-between" role="tablist">
+					<div class="step active radius-30" data-target="#test-l-1" th:class="${pendingForm.operation[1].status == 1 ? 'bg-success .rounded-0' : 'bg-warning .rounded-0 '}">
+						<div class="step-trigger" role="tab" id="stepper1trigger1" aria-controls="test-l-1" >
+							<div class="bs-stepper-circle1">1</div>
+							<h6>Project Manager</h6>
+						</div>
+					</div>
+					<div class="bs-stepper-line "></div>
+					<div class="step radius-30" data-target="#test-l-2" th:class="${pendingForm.operation[2].status == 1 ? 'bg-success .rounded-0' : 'bg-warning .rounded-0'}">
+						<div class="step-trigger" role="tab" id="stepper1trigger2" aria-controls="test-l-2">
+							<div class="bs-stepper-circle1">2</div>
+							<h6>Department Head (Approve)</h6>
+						</div>
+					</div>
+					<div class="bs-stepper-line"></div>
+					<div class="step radius-30" data-target="#test-l-3" th:class="${pendingForm.operation[3].status == 1 ? 'bg-success .rounded-0' : 'bg-warning .rounded-0 ' }">
+						<div class="step-trigger" role="tab" id="stepper1trigger3" aria-controls="test-l-3">
+							<div class="bs-stepper-circle1">3</div>
+							<h6>Division Head (Approve)</h6>
+						</div>
+					</div>
+					<div class="bs-stepper-line"></div>
+					<div class="step radius-30" data-target="#test-l-4" th:class="${pendingForm.operation[4].status == 1 ? 'bg-success .rounded-0' : 'bg-warning .rounded-0'}">
+						<div class="step-trigger" role="tab" id="stepper1trigger4" aria-controls="test-l-4">
+							<div class="bs-stepper-circle1">4</div>
+							<h6>CISO(Approve)</h6>
+						</div>
+					</div>
+					<div class="bs-stepper-line"></div>
+					<div class="step radius-30" data-target="#test-l-5" th:class="${pendingForm.operation[6].status == 1 ? 'bg-success .rounded-0' : 'bg-warning .rounded-0'} ">
+						<div class="step-trigger" role="tab" id="stepper1trigger5" aria-controls="test-l-5">
+							<div class="bs-stepper-circle1">5</div>
+							<h6>CEO(Approve)</h6>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!--Process If user has pending Form  End-->
+	</div>
+	<!--Actual Processing Section Start-->
+    
+<div th:include="layout/footer"></div>

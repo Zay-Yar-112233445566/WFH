@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+	   xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head th:replace="layout/header :: header-link"></head>
+<body>
+    <div class="wrapper">
+        <div th:fragment="sidebar" th:replace="layout/body :: sidebar" ></div><!--sidebar -->
+        <header th:replace="layout/body :: header"></header> <!-- header -->
+        
+        <!--Actual Processing Section Start-->
+        <div class="page-wrapper">
+			<div class="page-content">
+				<!--breadcrumb-->
+                <div class="page-breadcrumb d-none d-sm-flex align-items-center mb-3">
+					<div class="breadcrumb-title pe-3">WFHS</div>
+					<div class="ps-3">
+						<nav aria-label="breadcrumb">
+							<ol class="breadcrumb mb-0 p-0">
+								<li class="breadcrumb-item"><a href="javascript:;"><i class="bx bx-home-alt"></i></a>
+								</li>
+								<li class="breadcrumb-item active" aria-current="page">Teams List</li>
+							</ol>
+						</nav>
+					</div>
+                </div>
+				<!--end breadcrumb-->
+                <div class="card">
+					<div class="card-body">
+						<div sec:authorize="hasAuthority('HR')">
+						<div class="d-lg-flex align-items-center mb-4 gap-3">
+							<div class="ms-auto">
+								<div class="col">
+									<div class="row mb-3">
+										<div class="col-md-3">
+											<input type="text" class="form-control" id="teamSearchInput" placeholder="Search by Team Name">
+										</div>
+								        <div class="col-md-3">
+								            <select class="form-select" id="departmentFilter">
+								                <option value="">----- Select Department -----</option>
+								                <!-- Add options dynamically from the server or JavaScript -->
+								            </select>
+								        </div>
+								        <div class="col-md-3">
+								            <select class="form-select" id="divisionFilter">
+								                <option value="">----- Select Division -----</option>
+								                <!-- Add options dynamically from the server or JavaScript -->
+								            </select>
+								        </div>
+								        <div class="col-md-3 text-end">
+										 	<input type="hidden" id="chooseDepartmentId" th:value="${department.id}">
+											<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleVerticallycenteredModal">
+												<i class="bx bxs-plus-square"></i>New Teams
+											</button>
+										 </div>
+								     </div> 
+									<!-- Modal -->
+									<div class="modal fade" id="exampleVerticallycenteredModal" tabindex="-1" aria-hidden="true">
+										<div class="modal-dialog modal-dialog-centered">
+											<div class="modal-content">
+												<div class="modal-header">
+													<h5 class="modal-title">Add Team</h5>
+													<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+												</div>
+													<div class="modal-body">
+														<div class="row mb-3">
+						                                	<label for="input42" class="col-sm-3 col-form-label">Division Name</label>
+						                                	<div class="col-sm-9">
+						                                		<select class="form-select" id="divisionSelectAddTeam" th:field="${division.name}">
+						                                			<option value="">----- Select Division -----</option>
+						                                			<option th:each="division : ${divisionList}" th:value="${division.id}" th:text="${division.name}">
+																	</option>
+						                                		</select>
+						                                	</div>
+						                                </div>
+						                                <div class="row mb-3">
+						                                	<label for="input42" class="col-sm-3 col-form-label">Department Name</label>
+						                                	<div class="col-sm-9">
+						                                		<select class="form-select" id="departmentSelectAddTeam" th:field="${department.name}">
+						                                			<option value="">----- Select Department -----</option>
+						                                		</select>
+						                                	</div>
+						                                </div>
+						                                <div class="row mb-3">
+						                                	<label for="input42" class="col-sm-3 col-form-label">Team Code</label>
+						                                	<div class="col-sm-9">
+						                                		<input type="text" class="form-control" id="code" name="code" th:field="${team.code}" readonly>
+						                                	</div>
+						                                </div>
+						                                <div class="row mb-3">
+						                                	<label for="input42" class="col-sm-3 col-form-label">Team Name</label>
+						                                	<div class="col-sm-9">
+						                                		<input type="text" class="form-control" id="name" name="name" th:field="${team.name}">
+						                                	</div>
+						                                </div>
+						                            </div>
+						                        	<div class="modal-footer">
+														<button type="button" class="btn btn-primary" data-bs-dismiss="modal" id="saveChangeBtn">Save Change</button>
+													</div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="table-responsive">
+							<table class="table mb-0">
+								<thead class="table-light">
+									<tr>
+										<th>No</th>
+										<th>Team Code</th>
+										<th>Team Name</th>
+										<th>Department Name</th>
+										<th>Division Name</th>
+										<th>View Members</th>
+										<th>Edit</th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr th:each="teams,increator: ${teams}">
+										<td>
+											<div class="d-flex align-items-center">
+												<div class="ms-2">
+													<h6 class="mb-0 font-14" th:text="${increator.index + 1}"></h6>
+												</div>
+											</div>
+										</td>
+										<td th:text="${teams.code}"></td>
+										<td th:text="${teams.name}"></td>
+										<td th:text="${teams.department.name}"></td>
+										<td th:text="${teams.department.division.name}"></td>
+										<td><a th:href="@{/team-member-list-id(id=${teams.id})}" class="btn btn-primary btn-sm radius-30 px-4">View Members</a></td>
+										<td>
+											<div class="d-flex order-actions">
+												<a href="#" class="edit-btn" data-bs-toggle="modal" data-bs-target="#editTeamModal" 
+													th:data-team-code="${teams.code}" th:data-team-name="${teams.name}" 
+                           							th:data-department-name="${teams.department.name}" th:data-division-name="${teams.department.division.name}">
+							                        <i class='bx bxs-edit'></i>
+							                    </a>
+											</div>
+										</td>
+									</tr>
+								</tbody>
+							</table>
+							<div class="modal fade" id="editTeamModal" tabindex="-1" aria-hidden="true">
+								<div class="modal-dialog modal-dialog-centered">
+									<div class="modal-content">
+										<div class="modal-header">
+											<h5 class="modal-title">Edit Team</h5>
+											<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+										</div>
+										<div class="modal-body">
+											<div class="row mb-3">
+						                    	<label for="input42" class="col-sm-3 col-form-label">Division Name</label>
+						                        <div class="col-sm-9">
+						                        	<input type="text" class="form-control" id="divisionName" name="divisionName" readonly>
+						                        </div>
+						                  	</div>
+						                    <div class="row mb-3">
+						                    	<label for="input42" class="col-sm-3 col-form-label">Department Name</label>
+						                        <div class="col-sm-9">
+						                        	<input type="text" class="form-control" id="departmentName" name="departmentName" readonly>
+						                        </div>
+						                    </div>
+						                    <div class="row mb-3">
+						                    	<label for="input42" class="col-sm-3 col-form-label">Team Code</label>
+						                        <div class="col-sm-9">
+						                        	<input type="text" class="form-control" id="teamCode" name="code" readonly>
+						                        </div>
+						                    </div>
+						                    <div class="row mb-3">
+						                   		<label for="input42" class="col-sm-3 col-form-label">Team Name</label>
+						                        	<div class="col-sm-9">
+						                            	<input type="text" class="form-control" id="teamName" name="name">
+						                            </div>
+						                    </div>
+						                </div>
+						                <div class="modal-footer">
+											<button type="button" class="btn btn-primary" data-bs-dismiss="modal" id="updateTeamBtn">Save Change</button>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					</div>
+					<!-- End HR -->
+					
+					<div sec:authorize="hasAnyAuthority('DEPARTMENT_HEAD','DIVISION_HEAD','CISO','CEO')">
+						<div class="table-responsive">
+							<table class="table mb-0">
+								<thead class="table-light">
+									<tr>
+										<th>No</th>
+										<th>Team Code</th>
+										<th>Team Name</th>
+										<th>View Members</th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr th:each="teams,increator: ${teams}">
+										<td>
+											<div class="d-flex align-items-center">
+												<div class="ms-2">
+													<h6 class="mb-0 font-14" th:text="${increator.index + 1}"></h6>
+												</div>
+											</div>
+										</td>
+										<td th:text="${teams.code}"></td>
+										<td th:text="${teams.Name}"></td>
+										<td><a th:href="@{/team-member-list-id(id=${teams.id})}" class="btn btn-primary btn-sm radius-30 px-4">View Members</a></td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+					</div>
+				</div>
+            </div>
+        </div>
+        <!--Actual Processing Section End-->
+<div th:include="layout/footer"></div>

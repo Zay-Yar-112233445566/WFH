@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Upload Excel File</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+
+        h1 {
+            color: #333;
+        }
+
+        form {
+            margin-top: 20px;
+        }
+
+        button {
+            padding: 10px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        input[type="file"] {
+            margin-right: 10px;
+        }
+
+        .message {
+            margin-top: 10px;
+            font-weight: bold;
+        }
+
+        .success {
+            color: #008000;
+        }
+
+        .error {
+            color: #FF0000;
+        }
+    </style>
+</head>
+<body>
+    <h1>Upload Excel File</h1>
+    <form action="/excelImport/upload" method="post" enctype="multipart/form-data">
+        <input type="file" name="file" accept=".xlsx, .xls" required>
+        <button type="submit">Upload</button>
+    </form>
+    
+    <!-- Display result message -->
+    <div th:if="${param.uploadResult}">
+        <div th:class="${param.uploadResult == 'success' ? 'success' : 'error'} message">
+            File upload result: <span th:text="${param.uploadResult}"></span>
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+	   xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+<head>
+	<!-- Required meta tags -->
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="icon" href="/assets/images/DAT Logo.png" type="image/png" />
+	<link rel="stylesheet" href="/assets/css/login.css">
+	<title>WFHS Sign In</title>
+</head>
+
+<body class="">
+	<div class="container">
+		<div class="screen">
+			<div class="screen__content">
+				<div style="top: 40px; left: 100px; position: relative;">
+					<img src="/assets/images/DAT Logo.png" alt="Logo"
+						style="width: 80px; height: auto; left: 100px; position: relative;" >
+				</div>
+				<div style=" top: 100px; left: 30px; position: relative;">
+					<h2 class="">Work From Home System</h2><br>
+					<p class="">Please log in to your account</p>
+				</div>
+				<form class="login" th:action="@{/login}" method="post">
+					<div class="user-box">
+						<i class="login__icon fas fa-user"></i>
+						<input type="text" name="username" class="login__input" required>
+						<label>Staff ID</label>
+					</div>
+					<div class="user-box">
+						<i class="login__icon fas fa-lock"></i>
+						<input type="password" name="password" class="login__input" required>
+						<label>Password</label>
+					</div>					
+					<button class="button login__submit">
+						<span class="button__text">Log In</span>
+						<i class="button__icon fas fa-chevron-right"></i>
+					</button>
+					<br><br><br>											
+					<div style="display: flex; flex-direction: row;justify-content: space-between;">
+						<span><a th:href="@{/forgot-password}" class="forgot-pass">Forgot Password?</a></span>
+					</div>
+				</form>
+			</div>
+			<div class="screen__background">
+				<span class="screen__background__shape screen__background__shape4"></span>
+				<span class="screen__background__shape screen__background__shape3"></span>
+				<span class="screen__background__shape screen__background__shape2"></span>
+				<span class="screen__background__shape screen__background__shape1"></span>
+			</div>
+		</div>
+	</div>
+</body>
+
+</html>
